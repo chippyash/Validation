@@ -2,6 +2,8 @@
 
 ## Quality Assurance
 
+[![Build Status](https://travis-ci.org/chippyash/Validation.svg?branch=master)](https://travis-ci.org/chippyash/Validation)
+[![Coverage Status](https://coveralls.io/repos/chippyash/Validation/badge.svg?branch=master&service=github)](https://coveralls.io/github/chippyash/Validation?branch=master)
 [![Code Climate](https://codeclimate.com/github/chippyash/Validation/badges/gpa.svg)](https://codeclimate.com/github/chippyash/Validation)
 
 Certified for PHP 5.4+
