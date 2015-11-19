@@ -289,7 +289,7 @@ Each require ValidatorPatternInterface constructor parameters. Here is superfici
 And of course, you can combined them:
 
 <pre>
-    $validator = $not( $and($true, $xor($false, $true)))
+    $validator = new Logical\LNot( new Logical\LAnd($true, Logical\LXor($false, $true)))
     $ret = $validator->isValid('foo');
     
     //the above is equivelent to
