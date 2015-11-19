@@ -2,6 +2,8 @@
 
 ## Quality Assurance
 
+[![Code Climate](https://codeclimate.com/github/chippyash/Validation/badges/gpa.svg)](https://codeclimate.com/github/chippyash/Validation)
+
 Certified for PHP 5.4+
 
 The above badges represent the current development branch.  As a rule, I don't push
