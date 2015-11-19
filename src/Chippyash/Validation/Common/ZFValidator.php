@@ -52,7 +52,8 @@ class ZFValidator extends AbstractValidator
         return Match::on(Option::create($this->validator->isValid($value), false))
             ->Monad_Option_Some(true)
             ->Monad_Option_None(function(){
-                array_walk($this->validator->getMessages(), function($msg){
+                $msgs = $this->validator->getMessages();
+                array_walk($msgs, function($msg){
                     $this->messenger->add(new StringType($msg));
                 });
                 return false;
