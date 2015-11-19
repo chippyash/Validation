@@ -1,0 +1,38 @@
+{
+  "name": "chippyash/validation",
+  "description": "comprehensive function based validation routines",
+  "homepage": "http://the-matrix.github.io/",
+  "keywords": ["validation","json","functional"],
+  "license": "GPL 3.0",
+  "authors": [
+    {
+      "name": "Ashley Kitson",
+      "email": "ashley@zf4.biz"
+    }
+  ],
+  "require": {
+    "php": ">=5.4",
+    "chippyash/strong-type": "~2.1.0",
+    "chippyash/monad": "~1.2.4",
+    "zendframework/zend-validator": "2.5.*",
+    "zendframework/zend-filter": "2.5.*"
+  },
+  "require-dev": {
+    "ext-intl":"*",
+    "phpunit/phpunit": "~4.3.0",
+    "mikey179/vfsStream": "1.6.*",
+    "codeclimate/php-test-reporter": "dev-master",
+    "satooshi/php-coveralls": "~0.6.1",
+    "zendframework/zend-i18n": "2.5.*"
+  },
+  "autoload": {
+    "psr-0": {
+      "Chippyash\\Validation\\": "src/",
+      "Chippyash\\Test\\Validation\\": "test/"
+    }
+  },
+  "suggest": {
+    "zendframework/zend-i18n":"To use UK Post code and telephone number validation",
+    "ext-intl": "Required for most features of Zend\\I18n; included in default builds of PHP"
+  }
+}

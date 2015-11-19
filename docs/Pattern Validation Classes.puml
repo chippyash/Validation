@@ -1,0 +1,35 @@
+@startuml
+title Pattern Validation Classes
+
+class APattern << (O, orchid) sterotype >>
+
+
+namespace Chippyash.Validation {
+    namespace Pattern {
+        interface ValidatorPatternInterface << pattern >> {
+            boolean __invoke(value, Messenger messenger)
+        }
+        class HasKeyMap
+        class HasTypeMap
+        class IsTraversable
+        class Repeater
+        ValidatorPatternInterface <|-- .APattern
+    }
+
+    namespace Common {
+        abstract class AbstractValidator {
+            {abstract} boolean validate(mixed value)
+        }
+
+
+    }
+
+}
+Chippyash.Validation.Common.AbstractValidator --|> Chippyash.Validation.Pattern.ValidatorPatternInterface
+Chippyash.Validation.Common.AbstractValidator <|-- Chippyash.Validation.Pattern.HasKeyMap
+Chippyash.Validation.Common.AbstractValidator <|-- Chippyash.Validation.Pattern.HasTypeMap
+Chippyash.Validation.Common.AbstractValidator <|-- Chippyash.Validation.Pattern.IsTraversable
+Chippyash.Validation.Pattern.IsTraversable <|-- Chippyash.Validation.Pattern.Repeater
+
+
+@enduml

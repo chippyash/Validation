@@ -1,0 +1,89 @@
+@startuml
+title Validation Classes
+
+abstract class APattern
+abstract class ACallable {
+    λ(mixed value, Messenger messenger)
+}
+
+namespace Zend.Validator {
+    interface ValidatorInterface 
+}
+
+namespace Chippyash.Validation {
+    class Messenger
+    class ValidationProcessor
+    
+    namespace Pattern {
+        interface ValidatorPatternInterface
+        class HasKeyMap
+        class HasTypeMap
+        class IsTraversable
+        class Repeater
+    }
+
+    namespace Common {
+        namespace ISO8601 {
+            abstract class Constants
+            class MatchDate
+            class SplitDate
+        }
+
+        abstract class AbstractValidator 
+        class ISO8601DateString
+        class Double
+        class Email
+        class Enum
+        class isArray
+        class UKPostCode
+        class UKTelNum
+        class Lambda
+        class Zend
+        
+    }
+
+    namespace Logical {
+        class LAnd
+        class LOr
+        class LXor
+        class LNot
+    }
+}
+class Validator << (O, orchid) sterotype >>
+
+Zend.Validator.ValidatorInterface <|-- Chippyash.Validation.Pattern.ValidatorPatternInterface
+Chippyash.Validation.Pattern.ValidatorPatternInterface <|-- .APattern
+Chippyash.Validation.Messenger <.. Chippyash.Validation.Pattern.ValidatorPatternInterface
+
+Chippyash.Validation.Messenger <.. ACallable
+APattern *-right- Validator
+ACallable *-- Validator
+Validator "1" o-- "1..*" Chippyash.Validation.ValidationProcessor
+
+Chippyash.Validation.Common.ISO8601DateString ..up> Chippyash.Validation.Common.ISO8601.Constants
+Chippyash.Validation.Common.ISO8601DateString ..up> Chippyash.Validation.Common.ISO8601.SplitDate
+Chippyash.Validation.Common.ISO8601DateString ..up> Chippyash.Validation.Common.ISO8601.MatchDate
+
+Chippyash.Validation.Common.AbstractValidator --|> Chippyash.Validation.Pattern.ValidatorPatternInterface
+Chippyash.Validation.Common.AbstractValidator ..> Chippyash.Validation.Messenger
+Chippyash.Validation.Common.Zend --|> Chippyash.Validation.Common.AbstractValidator
+Chippyash.Validation.Common.Zend ..> Zend.Validator.ValidatorInterface
+Chippyash.Validation.Common.Email --|> Chippyash.Validation.Common.Zend
+Chippyash.Validation.Common.UKPostCode --|> Chippyash.Validation.Common.Zend
+Chippyash.Validation.Common.Double --|> Chippyash.Validation.Common.AbstractValidator
+Chippyash.Validation.Common.Enum --|> Chippyash.Validation.Common.AbstractValidator
+Chippyash.Validation.Common.ISO8601DateString --|> Chippyash.Validation.Common.AbstractValidator
+Chippyash.Validation.Common.isArray --|> Chippyash.Validation.Common.AbstractValidator
+Chippyash.Validation.Common.UKTelNum --|> Chippyash.Validation.Common.Zend
+Chippyash.Validation.Common.Lambda --|> Chippyash.Validation.Common.AbstractValidator
+
+Chippyash.Validation.Logical.LAnd -up-|> Chippyash.Validation.Common.AbstractValidator
+Chippyash.Validation.Logical.LOr -up-|> Chippyash.Validation.Common.AbstractValidator
+Chippyash.Validation.Logical.LXor -down-|> Chippyash.Validation.Common.AbstractValidator
+Chippyash.Validation.Logical.LNot -down-|> Chippyash.Validation.Common.AbstractValidator
+
+Chippyash.Validation.Common.AbstractValidator <|-- Chippyash.Validation.Pattern.HasKeyMap
+Chippyash.Validation.Pattern.HasTypeMap --|> Chippyash.Validation.Common.AbstractValidator
+Chippyash.Validation.Pattern.IsTraversable --|> Chippyash.Validation.Common.AbstractValidator
+Chippyash.Validation.Pattern.IsTraversable --|> Chippyash.Validation.Pattern.Repeater
+@enduml

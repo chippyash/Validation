@@ -1,0 +1,32 @@
+@startuml
+title Logical Validation Classes
+
+namespace Chippyash.Validation {
+
+    namespace Common {
+        abstract class AbstractValidator {
+            {abstract} boolean validate(mixed value)
+        }
+    }
+
+    namespace Logical {
+        class LAnd {
+            __construct(ValidatorPatternInterface $v1, ValidatorPatternInterface $v2)
+        }
+        class LOr {
+            __construct(ValidatorPatternInterface $v1, ValidatorPatternInterface $v2)
+        }
+        class LXor {
+            __construct(ValidatorPatternInterface $v1, ValidatorPatternInterface $v2)
+        }
+        class LNot {
+            __construct(ValidatorPatternInterface $v1)
+        }
+    }
+}
+Chippyash.Validation.Logical.LAnd -up-|> Chippyash.Validation.Common.AbstractValidator
+Chippyash.Validation.Logical.LOr -up-|> Chippyash.Validation.Common.AbstractValidator
+Chippyash.Validation.Logical.LXor -down-|> Chippyash.Validation.Common.AbstractValidator
+Chippyash.Validation.Logical.LNot -down-|> Chippyash.Validation.Common.AbstractValidator
+
+@enduml
