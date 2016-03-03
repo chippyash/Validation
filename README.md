@@ -133,7 +133,7 @@ You can pass in an optional second StringType parameter with the failure message
 
 <pre>
     use Chippyash\Validation\Common\Lambda;
-    use chippyash\Type\String\StringType;
+    use Chippyash\Type\String\StringType;
         
     $validator = new Lambda(function($value) {
         return $value === 'foo';
@@ -205,7 +205,7 @@ use Chippyash\Validation\Pattern\HasTypeMap;
 use Chippyash\Validation\Common\ISO8601DateString;
 use Chippyash\Validation\Common\IsArray;
 use Chippyash\Validation\Common\Email;
-use chippyash\Type\Number\IntType
+use Chippyash\Type\Number\IntType
 
 $validator = new HasTypeMap([
     'a' => new ISO8601DateString(), 
@@ -223,7 +223,7 @@ See the 'Repeater' below for how to solve this problem.
 The values supplied in the TypeMap can be one of the following:
 
 - Any returned by PHP gettype(), i.e. "integer" "double" "string", "boolean", "resource", "NULL", "unknown"
-- The name of a class, e.g. '\chippyash\Type\String\StringType'
+- The name of a class, e.g. '\Chippyash\Type\String\StringType'
 - A function conforming to the signature 'function($value, Messenger $messenger)' and returning
   true or false
 - An object implementing the ValidationPatternInterface
@@ -249,7 +249,7 @@ use Chippyash\Validation\Common\ISO8601DateString;
 use Chippyash\Validation\Common\IsArray;
 use Chippyash\Validation\Common\Email;
 use Chippyash\Validation\Common\UKPostCode;
-use chippyash\Type\Number\IntType
+use Chippyash\Type\Number\IntType
 
 $validator = new HasTypeMap([
     'a' => new ISO8601DateString(),
@@ -382,7 +382,7 @@ Install [Composer](https://getcomposer.org/)
 #### For production
 
 <pre>
-    "chippyash/validation": "1.0.*"
+    "chippyash/validation": "~1"
 </pre>
 
 Or to use the latest, possibly unstable version:
@@ -441,4 +441,6 @@ The following have done work that this library uses:
 
 ## History
 
-V0.0.1 Initial Release
+V1.0.0 Initial Release
+
+V1.1.0 Update dependencies

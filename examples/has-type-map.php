@@ -15,7 +15,7 @@ use Chippyash\Validation\Pattern\Repeater;
 use Chippyash\Validation\Common\ISO8601DateString;
 use Chippyash\Validation\Common\Email;
 use Chippyash\Validation\Common\UKPostCode;
-use chippyash\Type\Number\IntType;
+use Chippyash\Type\Number\IntType;
 
 $validator = new HasTypeMap([
     'a' => new ISO8601DateString(),

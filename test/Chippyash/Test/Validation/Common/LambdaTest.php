@@ -2,7 +2,7 @@
 
 namespace Chippyash\Test\Validation\Common;
 
-use chippyash\Type\String\StringType;
+use Chippyash\Type\String\StringType;
 use Chippyash\Validation\Common\Lambda;
 use Chippyash\Validation\Messenger;
 

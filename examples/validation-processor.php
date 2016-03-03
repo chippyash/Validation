@@ -20,7 +20,7 @@ use Chippyash\Validation\Messenger;
 use Chippyash\Validation\ValidationProcessor;
 use Monad\Match;
 use Monad\Option;
-use chippyash\Type\Number\IntType;
+use Chippyash\Type\Number\IntType;
 
 $requiredValidator = new HasTypeMap([
     'a' => new ISO8601DateString(),

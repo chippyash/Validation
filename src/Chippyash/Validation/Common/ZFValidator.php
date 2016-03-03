@@ -1,6 +1,6 @@
 <?php
 /**
- * chippyash/validation
+ * Chippyash/validation
  *
  * Functional validation
  *
@@ -14,7 +14,7 @@
 
 namespace Chippyash\Validation\Common;
 
-use chippyash\Type\String\StringType;
+use Chippyash\Type\String\StringType;
 use Monad\Match;
 use Monad\Option;
 use Zend\Validator\ValidatorInterface;

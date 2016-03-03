@@ -1,6 +1,6 @@
 <?php
 /**
- * chippyash/validation
+ * Chippyash/validation
  *
  * Functional validation
  *

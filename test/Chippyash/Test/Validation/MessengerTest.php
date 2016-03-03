@@ -3,7 +3,7 @@
 namespace Chippyash\Test\Validation;
 
 use Chippyash\Validation\Messenger;
-use chippyash\Type\String\StringType;
+use Chippyash\Type\String\StringType;
 
 class MessengerTest extends \PHPUnit_Framework_TestCase {
 
@@ -28,7 +28,7 @@ class MessengerTest extends \PHPUnit_Framework_TestCase {
         $ret = $this->sut->get();
         $this->assertInternalType('array', $ret);
         $this->assertEquals(1, count($ret));
-        $this->assertInstanceOf('\chippyash\Type\String\StringType', $ret[0]);
+        $this->assertInstanceOf('\Chippyash\Type\String\StringType', $ret[0]);
     }
 
     public function testCallingImplodeWillReturnAString() {

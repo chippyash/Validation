@@ -5,7 +5,7 @@ namespace Chippyash\Test\Test\Validation\Pattern;
 use Chippyash\Validation\Messenger;
 use Chippyash\Validation\Common\Lambda;
 use Chippyash\Validation\Pattern\Repeater;
-use chippyash\Type\Number\IntType;
+use Chippyash\Type\Number\IntType;
 
 class RepeaterTest extends \PHPUnit_Framework_TestCase
 {

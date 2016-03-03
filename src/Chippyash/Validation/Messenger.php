@@ -1,6 +1,6 @@
 <?php
 /**
- * chippyash/validation
+ * Chippyash/validation
  *
  * Validation
  *
@@ -11,7 +11,7 @@
  */
 namespace Chippyash\Validation;
 
-use chippyash\Type\String\StringType;
+use Chippyash\Type\String\StringType;
 
 /**
  * A utility class for saving and retrieving messages

@@ -5,7 +5,7 @@
 namespace Chippyash\Test\Validation\Common;
 
 use Chippyash\Validation\Messenger;
-use chippyash\Type\Number\IntType;
+use Chippyash\Type\Number\IntType;
 use Chippyash\Validation\Common\ISO8601\Constants as C;
 use Chippyash\Validation\Common\ISO8601DateString;
 

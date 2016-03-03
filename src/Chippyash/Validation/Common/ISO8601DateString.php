@@ -1,6 +1,6 @@
 <?php
 /**
- * chippyash/validation
+ * Chippyash/validation
  *
  * Functional validation
  *
@@ -15,8 +15,8 @@
 namespace Chippyash\Validation\Common;
 
 use Chippyash\Validation\Common\ISO8601\Constants as C;
-use chippyash\Type\String\StringType;
-use chippyash\Type\Number\IntType;
+use Chippyash\Type\String\StringType;
+use Chippyash\Type\Number\IntType;
 use Chippyash\Validation\Exceptions\InvalidParameterException;
 use Chippyash\Validation\Common\ISO8601\SplitDate;
 use Chippyash\Validation\Common\ISO8601\MatchDate;
@@ -177,8 +177,8 @@ class ISO8601DateString extends AbstractValidator
      * To check for PHP DateTime compatibility OR the format with CHECK_PHP_PARSEABLE
      * e.g. new IntType(FORMAT_EXTENDED | CHECK_PHP_PARSEABLE)
      *
-     * @param \chippyash\Type\Number\IntType $format
-     * @param \chippyash\Type\Number\IntType $numSignedDigits required if Signed dates are to be validated
+     * @param \Chippyash\Type\Number\IntType $format
+     * @param \Chippyash\Type\Number\IntType $numSignedDigits required if Signed dates are to be validated
      *
      * @throws InvalidParameterException
      */

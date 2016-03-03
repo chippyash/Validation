@@ -54,6 +54,15 @@
 *  You can optionally test for an empty array
 
 ## 
+      Chippyash\Test\Validation\Pattern\IsTraversable
+    
+
+*  You can validate with an array
+*  You can validate with a traversable
+*  You can validate with a std class
+*  Validating with a non traversable will return false
+
+## 
       Chippyash\Test\Validation\Common\Lambda
     
 
@@ -142,16 +151,6 @@
 *  You can test if the messenger has a message
 
 ## 
-      Chippyash\Test\Validation\Pattern\HasKeyMap
-    
-
-*  You can validate with an associative array
-*  You can validate with an associative array in the wrong order
-*  You can validate with a std class
-*  You can validate with a good traversable
-*  Validating with a bad traversable will return false
-
-## 
       Chippyash\Test\Validation\Pattern\HasTypeMap
     
 
@@ -168,15 +167,6 @@
 *  You can use a callable function for a validation type
 *  The pattern will fail if value for a traversable value is false
 *  You can use a traversable function for a validation type
-
-## 
-      Chippyash\Test\Validation\Pattern\IsTraversable
-    
-
-*  You can validate with an array
-*  You can validate with a traversable
-*  You can validate with a std class
-*  Validating with a non traversable will return false
 
 ## 
       Chippyash\Test\Test\Validation\Pattern\Repeater

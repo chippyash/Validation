@@ -1,6 +1,6 @@
 <?php
 /**
- * chippyash/validation
+ * Chippyash/validation
  *
  * Functional validation
  *
@@ -9,8 +9,8 @@
  */
 namespace Chippyash\Validation\Pattern;
 
-use chippyash\Type\Number\IntType;
-use chippyash\Type\String\StringType;
+use Chippyash\Type\Number\IntType;
+use Chippyash\Type\String\StringType;
 use Chippyash\Validation\Exceptions\ValidationException;
 use Chippyash\Validation\Common\IsTraversable;
 

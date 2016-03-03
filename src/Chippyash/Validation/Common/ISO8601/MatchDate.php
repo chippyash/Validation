@@ -1,6 +1,6 @@
 <?php
 /**
- * chippyash/validation
+ * Chippyash/validation
  *
  * Functional validation
  *
@@ -16,7 +16,7 @@ namespace Chippyash\Validation\Common\ISO8601;
 
 use Chippyash\Validation\Common\ISO8601\Constants as C;
 use Chippyash\Validation\Messenger;
-use chippyash\Type\String\StringType;
+use Chippyash\Type\String\StringType;
 
 /**
  * Utility helper for ISO8601DateString

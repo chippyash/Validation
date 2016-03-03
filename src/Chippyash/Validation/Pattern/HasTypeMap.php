@@ -1,6 +1,6 @@
 <?php
 /**
- * chippyash/validation
+ * Chippyash/validation
  *
  * Functional validation
  *
@@ -15,7 +15,7 @@
 namespace Chippyash\Validation\Pattern;
 
 use Chippyash\Validation\Common\AbstractValidator;
-use chippyash\Type\String\StringType;
+use Chippyash\Type\String\StringType;
 
 /**
  * Test that a value has a value type map matching
@@ -45,7 +45,7 @@ use chippyash\Type\String\StringType;
  *  'foo' => 'string',
  *  'bar' => [
  *      'baz' => 'int',
- *      'fred' => '\chippyash\Type\String\StringType'
+ *      'fred' => '\Chippyash\Type\String\StringType'
  *  ],
  *  'blogs' => 'real',
  *  'jimmy' => function ($value, Messenger $messenger){return is_array($value);},
