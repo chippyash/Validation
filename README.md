@@ -2,11 +2,11 @@
 
 ## Quality Assurance
 
-[![Build Status](https://travis-ci.org/chippyash/Validation.svg?branch=master)](https://travis-ci.org/chippyash/Validation)
-[![Coverage Status](https://coveralls.io/repos/chippyash/Validation/badge.svg?branch=master&service=github)](https://coveralls.io/github/chippyash/Validation?branch=master)
-[![Code Climate](https://codeclimate.com/github/chippyash/Validation/badges/gpa.svg)](https://codeclimate.com/github/chippyash/Validation)
+Certified for PHP 5.4 - 5.6
 
-Certified for PHP 5.4+
+[![Build Status](https://travis-ci.org/chippyash/Validation.svg?branch=master)](https://travis-ci.org/chippyash/Validation)
+[![Test Coverage](https://codeclimate.com/github/chippyash/Validation/badges/coverage.svg)](https://codeclimate.com/github/chippyash/Validation/coverage)
+[![Code Climate](https://codeclimate.com/github/chippyash/Validation/badges/gpa.svg)](https://codeclimate.com/github/chippyash/Validation)
 
 The above badges represent the current development branch.  As a rule, I don't push
  to GitHub unless tests, coverage and usability are acceptable.  This may not be
@@ -444,3 +444,5 @@ The following have done work that this library uses:
 V1.0.0 Initial Release
 
 V1.1.0 Update dependencies
+
+V1.1.1 Move code coverage to codeclimate
