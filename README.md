@@ -350,6 +350,8 @@ always the latest dev-master. The features it describes may not be in a released
 
 [Test Contract](https://github.com/chippyash/Validation/blob/master/docs/Test-Contract.md) in the docs directory.
 
+Check out [ZF4 Packages](http://zf4.biz/packages?utm_source=github&utm_medium=web&utm_campaign=blinks&utm_content=validation) for more packages
+
 ### UML
 
 
@@ -446,3 +448,5 @@ V1.0.0 Initial Release
 V1.1.0 Update dependencies
 
 V1.1.1 Move code coverage to codeclimate
+
+V1.1.2 Add link to packages
