@@ -6,7 +6,7 @@
  *
  * Common validations
  *
- * @author Ashley Kitson
+ * @author    Ashley Kitson
  * @copyright Ashley Kitson, 2015, UK
  *
  * @link http://php.net/manual/en/functions.anonymous.php
@@ -14,12 +14,12 @@
 
 namespace Chippyash\Validation\Common;
 
-use Chippyash\Validation\Common\ISO8601\Constants as C;
-use Chippyash\Type\String\StringType;
 use Chippyash\Type\Number\IntType;
-use Chippyash\Validation\Exceptions\InvalidParameterException;
-use Chippyash\Validation\Common\ISO8601\SplitDate;
+use Chippyash\Type\String\StringType;
+use Chippyash\Validation\Common\ISO8601\Constants as C;
 use Chippyash\Validation\Common\ISO8601\MatchDate;
+use Chippyash\Validation\Common\ISO8601\SplitDate;
+use Chippyash\Validation\Exceptions\InvalidParameterException;
 use Monad\FTry;
 use Monad\Match;
 use Monad\Option;
@@ -185,38 +185,57 @@ class ISO8601DateString extends AbstractValidator
     public function __construct(IntType $format = null, IntType $numSignedDigits = null)
     {
         Match::on($format)
-            ->null(function() {
-                $this->format = C::FORMAT_EXTENDED;
-            })
-            ->any(function() use($format) {
-                $this->setFormatAndFlags($format);
-            });
+            ->null(
+                function () {
+                    $this->format = C::FORMAT_EXTENDED;
+                }
+            )
+            ->any(
+                function () use ($format) {
+                    $this->setFormatAndFlags($format);
+                }
+            );
 
-        InvalidParameterException::assert(function() {
-            return !$this->enforceTime && $this->enforceZone;
-        },
-            C::ERR_ENFORCEZONE_NOTIME);
+        InvalidParameterException::assert(
+            function () {
+                return !$this->enforceTime && $this->enforceZone;
+            },
+            C::ERR_ENFORCEZONE_NOTIME
+        );
 
-        InvalidParameterException::assert(function() {
-            return !$this->laxTime && $this->laxZone;
-        },
-            C::ERR_LAXZONE_NOTIME);
+        InvalidParameterException::assert(
+            function () {
+                return !$this->laxTime && $this->laxZone;
+            },
+            C::ERR_LAXZONE_NOTIME
+        );
 
-        Match::on(Option::create($this->format == C::FORMAT_BASIC_SIGNED || $this->format == C::FORMAT_EXTENDED_SIGNED, false))
-            ->Monad_Option_Some(function() use($numSignedDigits) {
-                InvalidParameterException::assert(function() use($numSignedDigits) {
-                    return is_null($numSignedDigits);
-                },
-                    C::ERR_NOSIGNEDDIGITS);
+        Match::on(
+            Option::create(
+                $this->format == C::FORMAT_BASIC_SIGNED || $this->format == C::FORMAT_EXTENDED_SIGNED,
+                false
+            )
+        )
+        ->Monad_Option_Some(
+            function () use ($numSignedDigits) {
+                InvalidParameterException::assert(
+                    function () use ($numSignedDigits) {
+                        return is_null($numSignedDigits);
+                    },
+                    C::ERR_NOSIGNEDDIGITS
+                );
 
-                InvalidParameterException::assert(function() use($numSignedDigits) {
-                    return ($numSignedDigits() < 4);
-                },
-                    C::ERR_MINSIGNEDDIGITS);
+                InvalidParameterException::assert(
+                    function () use ($numSignedDigits) {
+                        return ($numSignedDigits() < 4);
+                    },
+                    C::ERR_MINSIGNEDDIGITS
+                );
 
                 $this->numSignedDigits = $numSignedDigits();
                 $this->prepareSignedRegexes();
-            });
+            }
+        );
     }
 
     /**
@@ -250,58 +269,74 @@ class ISO8601DateString extends AbstractValidator
     protected function prepareSignedRegexes()
     {
         Match::on(Option::create($this->format == C::FORMAT_BASIC_SIGNED, false))
-            ->Monad_Option_Some(function() {
-                foreach($this->formatRegex[C::FORMAT_BASIC_SIGNED][MatchDate::STRDATE] as &$regex) {
-                    $regex = str_replace('##', $this->numSignedDigits, $regex);
-                }
-                //time and zone regex patterns are same as basic
-                $this->formatRegex[C::FORMAT_BASIC_SIGNED][MatchDate::STRTIME] =
+            ->Monad_Option_Some(
+                function () {
+                    foreach ($this->formatRegex[C::FORMAT_BASIC_SIGNED][MatchDate::STRDATE] as &$regex) {
+                        $regex = str_replace('##', $this->numSignedDigits, $regex);
+                    }
+                    //time and zone regex patterns are same as basic
+                    $this->formatRegex[C::FORMAT_BASIC_SIGNED][MatchDate::STRTIME] =
                     $this->formatRegex[C::FORMAT_BASIC][MatchDate::STRTIME];
-                $this->formatRegex[C::FORMAT_BASIC_SIGNED][MatchDate::STRZONE] =
+                    $this->formatRegex[C::FORMAT_BASIC_SIGNED][MatchDate::STRZONE] =
                     $this->formatRegex[C::FORMAT_BASIC][MatchDate::STRZONE];
-            });
+                }
+            );
 
         Match::on(Option::create($this->format == C::FORMAT_EXTENDED_SIGNED, false))
-            ->Monad_Option_Some(function() {
-            foreach($this->formatRegex[C::FORMAT_EXTENDED_SIGNED][MatchDate::STRDATE] as &$regex) {
-                $regex = str_replace('##', $this->numSignedDigits, $regex);
-            }
-            //time and zone regex patterns are same as extended
-            $this->formatRegex[C::FORMAT_EXTENDED_SIGNED][MatchDate::STRTIME] =
-                $this->formatRegex[C::FORMAT_EXTENDED][MatchDate::STRTIME];
-            $this->formatRegex[C::FORMAT_EXTENDED_SIGNED][MatchDate::STRZONE] =
-                $this->formatRegex[C::FORMAT_EXTENDED][MatchDate::STRZONE];
+            ->Monad_Option_Some(
+                function () {
+                    foreach ($this->formatRegex[C::FORMAT_EXTENDED_SIGNED][MatchDate::STRDATE] as &$regex) {
+                        $regex = str_replace('##', $this->numSignedDigits, $regex);
+                    }
+                    //time and zone regex patterns are same as extended
+                    $this->formatRegex[C::FORMAT_EXTENDED_SIGNED][MatchDate::STRTIME] =
+                    $this->formatRegex[C::FORMAT_EXTENDED][MatchDate::STRTIME];
+                    $this->formatRegex[C::FORMAT_EXTENDED_SIGNED][MatchDate::STRZONE] =
+                    $this->formatRegex[C::FORMAT_EXTENDED][MatchDate::STRZONE];
 
-        });
+                }
+            );
     }
 
     /**
      * Validation
      *
-     * @param mixed $value
+     * @param  mixed $value
      * @return boolean True if value is valid else false
      */
     protected function validate($value)
     {
         return Match::on(Option::create($this->validateISO($value), false))
-            ->Monad_Option_Some(function($opt) use($value) {
-                return Match::on(Option::create($opt->value() && $this->phpCheck, false))
-                    ->Monad_Option_Some(function() use ($value) {
-                        return Match::on(FTry::with(function() use ($value) {
-                            new \DateTime($value);
-                        }))
-                            ->Monad_FTry_Success(true)
-                            ->Monad_FTry_Failure(function() {
+            ->Monad_Option_Some(
+                function ($opt) use ($value) {
+                    return Match::on(Option::create($opt->value() && $this->phpCheck, false))
+                    ->Monad_Option_Some(
+                        function () use ($value) {
+                            return Match::on(
+                                FTry::with(
+                                    function () use ($value) {
+                                        new \DateTime($value);
+                                    }
+                                )
+                        )
+                        ->Monad_FTry_Success(true)
+                        ->Monad_FTry_Failure(
+                            function () {
                                 $this->messenger->clear()->add(new StringType(C::ERR_FAILED_PHP_CHECK));
                                 return false;
-                            })
-                            ->value();
-                    })
-                    ->Monad_Option_None(function() use($opt) {
-                        return $opt->value();
-                    })
+                            }
+                        )
+                        ->value();
+                        }
+                    )
+                    ->Monad_Option_None(
+                        function () use ($opt) {
+                            return $opt->value();
+                        }
+                    )
                     ->value();
-            })
+                }
+            )
             ->Monad_Option_None(false)
             ->value();
     }
@@ -309,7 +344,7 @@ class ISO8601DateString extends AbstractValidator
     /**
      * Do the ISO8601 validation
      *
-     * @param mixed $value
+     * @param  mixed $value
      * @return boolean
      */
     protected function validateISO($value)
@@ -329,7 +364,8 @@ class ISO8601DateString extends AbstractValidator
 
         if ($this->checkForNoDate($date)
             || $this->checkForEnforcement($time, $zone)
-            || $this->checkForMissingParts($time, $zone)) {
+            || $this->checkForMissingParts($time, $zone)
+        ) {
             return false;
         }
 
@@ -343,10 +379,12 @@ class ISO8601DateString extends AbstractValidator
     private function checkForNoDate($date)
     {
         return Match::on(Option::create($date))
-            ->Monad_Option_None(function(){
-                $this->messenger->add(new StringType(C::ERR_REQ_DATE));
-                return true;
-            })
+            ->Monad_Option_None(
+                function () {
+                    $this->messenger->add(new StringType(C::ERR_REQ_DATE));
+                    return true;
+                }
+            )
             ->Monad_Option_Some(false)
             ->value();
     }
@@ -359,19 +397,25 @@ class ISO8601DateString extends AbstractValidator
     private function checkForEnforcement($time, $zone)
     {
         return Match::on(Option::create($this->enforceTime && is_null($time), false))
-            ->Monad_Option_Some(function() {
-                $this->messenger->add(new StringType(C::ERR_REQ_TIME));
-                return true;
-            })
-            ->Monad_Option_None(function () use ($zone) {
-                return Match::on(Option::create($this->enforceZone && is_null($zone), false))
-                    ->Monad_Option_Some(function() {
-                        $this->messenger->add(new StringType(C::ERR_REQ_ZONE));
-                        return true;
-                    })
+            ->Monad_Option_Some(
+                function () {
+                    $this->messenger->add(new StringType(C::ERR_REQ_TIME));
+                    return true;
+                }
+            )
+            ->Monad_Option_None(
+                function () use ($zone) {
+                    return Match::on(Option::create($this->enforceZone && is_null($zone), false))
+                    ->Monad_Option_Some(
+                        function () {
+                            $this->messenger->add(new StringType(C::ERR_REQ_ZONE));
+                            return true;
+                        }
+                    )
                     ->Monad_Option_None(false)
                     ->value();
-            })
+                }
+            )
             ->value();
     }
 
@@ -383,19 +427,25 @@ class ISO8601DateString extends AbstractValidator
     private function checkForMissingParts($time, $zone)
     {
         return Match::on(Option::create($this->timepartFound && is_null($time), false))
-            ->Monad_Option_Some(function() {
-                $this->messenger->add(new StringType(C::ERR_TIME_NOTFOUND));
-                return true;
-            })
-            ->Monad_Option_None(function () use ($zone) {
-                return Match::on(Option::create($this->zonepartFound && is_null($zone), false))
-                    ->Monad_Option_Some(function() {
-                        $this->messenger->add(new StringType(C::ERR_ZONE_NOTFOUND));
-                        return true;
-                    })
+            ->Monad_Option_Some(
+                function () {
+                    $this->messenger->add(new StringType(C::ERR_TIME_NOTFOUND));
+                    return true;
+                }
+            )
+            ->Monad_Option_None(
+                function () use ($zone) {
+                    return Match::on(Option::create($this->zonepartFound && is_null($zone), false))
+                    ->Monad_Option_Some(
+                        function () {
+                            $this->messenger->add(new StringType(C::ERR_ZONE_NOTFOUND));
+                            return true;
+                        }
+                    )
                     ->Monad_Option_None(false)
                     ->value();
-            })
+                }
+            )
             ->value();
     }
 
@@ -409,46 +459,59 @@ class ISO8601DateString extends AbstractValidator
     {
         $matcher = new MatchDate($this->format, $this->formatRegex, $this->messenger);
 
-        return Match::on(Option::create($this->timepartFound,false))
+        return Match::on(Option::create($this->timepartFound, false))
             //has time part
-            ->Monad_Option_Some(function() use($matcher, $date, $time, $zone) {
-                return Match::on(Option::create($this->zonepartFound, false))
+            ->Monad_Option_Some(
+                function () use ($matcher, $date, $time, $zone) {
+                    return Match::on(Option::create($this->zonepartFound, false))
                     //has zone part
-                    ->Monad_Option_Some(function() use ($matcher, $date, $time, $zone) {
-                        //date, time and zone
-                        return Match::on(Option::create($matcher->matchDateAndTimeAndZone($date, $time, $zone), false))
+                    ->Monad_Option_Some(
+                        function () use ($matcher, $date, $time, $zone) {
+                            //date, time and zone
+                            return Match::on(Option::create($matcher->matchDateAndTimeAndZone($date, $time, $zone), false))
                             ->Monad_Option_Some(true)
-                            ->Monad_Option_None(function() {
-                                $this->messenger->clear()->add(new StringType(C::ERR_INVALID));
-                                return false;
-                            })
+                            ->Monad_Option_None(
+                                function () {
+                                    $this->messenger->clear()->add(new StringType(C::ERR_INVALID));
+                                    return false;
+                                }
+                            )
                             ->value();
-                    })
+                        }
+                    )
                     //no zone part
-                    ->Monad_Option_None(function() use($matcher, $date, $time) {
-                        //date and time
-                        return Match::on(Option::create($matcher->matchDateAndTime($date, $time), false))
+                    ->Monad_Option_None(
+                        function () use ($matcher, $date, $time) {
+                            //date and time
+                            return Match::on(Option::create($matcher->matchDateAndTime($date, $time), false))
                             ->Monad_Option_Some(true)
-                            ->Monad_Option_None(function() {
-                                $this->messenger->clear()->add(new StringType(C::ERR_INVALID));
-                                return false;
-                            })
+                            ->Monad_Option_None(
+                                function () {
+                                    $this->messenger->clear()->add(new StringType(C::ERR_INVALID));
+                                    return false;
+                                }
+                            )
                             ->value();
-                    })
+                        }
+                    )
                     ->value();
-            })
+                }
+            )
             //no timepart
-            ->Monad_Option_None(function() use($matcher, $date) {
-                //date only
-                return Match::on(Option::create($matcher->matchDate($date), false))
+            ->Monad_Option_None(
+                function () use ($matcher, $date) {
+                    //date only
+                    return Match::on(Option::create($matcher->matchDate($date), false))
                     ->Monad_Option_Some(true)
-                    ->Monad_Option_None(function() {
-                        $this->messenger->clear()->add(new StringType(C::ERR_INVALID));
-                        return false;
-                    })
+                    ->Monad_Option_None(
+                        function () {
+                            $this->messenger->clear()->add(new StringType(C::ERR_INVALID));
+                            return false;
+                        }
+                    )
                     ->value();
-            })
+                }
+            )
             ->value();
     }
 }
-

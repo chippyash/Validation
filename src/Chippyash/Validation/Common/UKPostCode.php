@@ -6,7 +6,7 @@
  *
  * Common validations
  *
- * @author Ashley Kitson
+ * @author    Ashley Kitson
  * @copyright Ashley Kitson, 2015, UK
  *
  * @link http://php.net/manual/en/functions.anonymous.php
@@ -31,7 +31,6 @@ class UKPostCode extends ZFValidator
      */
     public function __construct()
     {
-        parent::__construct(new PostCode(array('locale'=>'en-GB')));
+        parent::__construct(new PostCode(array('locale' => 'en-GB')));
     }
 }
-

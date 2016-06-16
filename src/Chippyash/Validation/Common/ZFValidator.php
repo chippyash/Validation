@@ -6,7 +6,7 @@
  *
  * Common validations
  *
- * @author Ashley Kitson
+ * @author    Ashley Kitson
  * @copyright Ashley Kitson, 2015, UK
  *
  * @link http://php.net/manual/en/functions.anonymous.php
@@ -21,7 +21,6 @@ use Zend\Validator\ValidatorInterface;
 
 /**
  * Chippyash Validator that wraps a Zend Validator
- *
  */
 class ZFValidator extends AbstractValidator
 {
@@ -44,20 +43,25 @@ class ZFValidator extends AbstractValidator
     /**
      * Do the validation
      *
-     * @param mixed $value
+     * @param  mixed $value
      * @return boolean
      */
     protected function validate($value)
     {
         return Match::on(Option::create($this->validator->isValid($value), false))
             ->Monad_Option_Some(true)
-            ->Monad_Option_None(function(){
-                $msgs = $this->validator->getMessages();
-                array_walk($msgs, function($msg){
-                    $this->messenger->add(new StringType($msg));
-                });
-                return false;
-            })
+            ->Monad_Option_None(
+                function () {
+                    $msgs = $this->validator->getMessages();
+                    array_walk(
+                        $msgs, 
+                        function ($msg) {
+                            $this->messenger->add(new StringType($msg));
+                        }
+                    );
+                    return false;
+                }
+            )
             ->value();
     }
 }

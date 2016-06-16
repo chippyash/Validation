@@ -6,9 +6,8 @@
  *
  * Logic validations
  *
- * @author Ashley Kitson
+ * @author    Ashley Kitson
  * @copyright Ashley Kitson, 2015, UK
- *
  */
 
 namespace Chippyash\Validation\Logical;
@@ -19,7 +18,6 @@ use Chippyash\Validation\Pattern\ValidatorPatternInterface;
 /**
  * Validator that accepts one validator
  * returns !validator
- *
  */
 class LNot extends AbstractValidator
 {
@@ -37,14 +35,13 @@ class LNot extends AbstractValidator
     /**
      * Do the validation
      *
-     * @param mixed $value
+     * @param  mixed $value
      * @return boolean
      */
     protected function validate($value)
     {
         $v1 = $this->validator;
-        
+
         return !$v1($value, $this->messenger);
     }
 }
-

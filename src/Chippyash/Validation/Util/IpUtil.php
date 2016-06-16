@@ -6,20 +6,20 @@
  *
  * Common validations
  *
- * @author Ashley Kitson
+ * @author    Ashley Kitson
  * @copyright Ashley Kitson, 2015, UK
  */
 
 namespace Chippyash\Validation\Util;
 
-
-use Zend\Validator\Ip as ZendIp;
 use Chippyash\Validation\Exceptions\InvalidParameterException;
+use Zend\Validator\Ip as ZendIp;
 
 /**
  * IP utilities
  */
-class IpUtil {
+class IpUtil
+{
 
     /**
      * Return user's ip address
@@ -31,23 +31,23 @@ class IpUtil {
     {
         if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && !empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
             return $_SERVER['HTTP_X_FORWARDED_FOR'];
-        } elseif(isset ($_SERVER['REMOTE_ADDR'])) {
+        } elseif (isset ($_SERVER['REMOTE_ADDR'])) {
             return $_SERVER['REMOTE_ADDR'];
-        } else {
-            return 'noip';
         }
+
+        return 'noip';
     }
 
     /**
      * Checks if an ip is in a cidr address range
      * e.g. 10.0.0.0/8 Class A mask
      *
-     * @param string $ip IP address
+     * @param string $ip   IP address
      * @param string $cidr CIDR notation ip range mask
      *
      * @return boolean True if matched else false
      *
-     * @link http://www.oav.net/mirrors/cidr.html
+     * @link   http://www.oav.net/mirrors/cidr.html
      * @throws InvalidParameterException
      */
     public static function cidrMatch($ip, $cidr)
@@ -62,16 +62,16 @@ class IpUtil {
             // @codeCoverageIgnoreStart
             return self::cidrMatch32bit($ip, $cidr);
             // @codeCoverageIgnoreEnd
-        } else {
-            return self::cidrMatch64bit($ip, $cidr);
         }
+         
+        return self::cidrMatch64bit($ip, $cidr);
     }
 
     /**
      * Check if string is a valid ip address
      *
-     * @param string $ip
-     * @param boolean $allowipv6
+     * @param  string  $ip
+     * @param  boolean $allowipv6
      * @return boolean
      */
     public static function isValidIP($ip, $allowipv6 = false)
@@ -84,22 +84,22 @@ class IpUtil {
      * Check if string is a valid cidr mask
      * example cidr 10.24.3.0/24
      *
-     * @param string $cidr
+     * @param  string $cidr
      * @return boolean
      */
     public static function isValidCidr($cidr)
     {
         $parts = explode('/', $cidr);
-        $parts[0] = (isset($parts[0]) ? (string) $parts[0] : '');
+        $parts[0] = (isset($parts[0]) ? (string)$parts[0] : '');
         $parts[1] = (isset($parts[1]) ? intval($parts[1]) : '');
         $ip = (!empty($parts[0]) ? $parts[0] : false);
         $bits = ($parts[1] === '' ? false : $parts[1]);
-        if ($ip===false || $bits===false) {
+        if ($ip === false || $bits === false) {
             return false;
         }
 
         return self::isValidIP($ip) &&
-                ($bits > -1 && $bits < 33 && $bits != 31);
+        ($bits > -1 && $bits < 33 && $bits != 31);
     }
 
     /**
@@ -107,11 +107,10 @@ class IpUtil {
      *
      * @codeCoverageIgnore
      *
-     *
      * @link http://stackoverflow.com/questions/594112/matching-an-ip-to-a-cidr-mask-in-php5
      *
-     * @param string $ip
-     * @param string $cidr
+     * @param  string $ip
+     * @param  string $cidr
      * @return boolean
      */
     protected static function cidrMatch32bit($ip, $cidr)
@@ -120,7 +119,7 @@ class IpUtil {
         $ip = \ip2long($ip);
         $subnet = \ip2long($sn);
         $mask = -1 << (32 - $bits);
-        $subnet &= $mask; # nb: in case the supplied subnet wasn't correctly aligned
+        $subnet &= $mask; // nb: in case the supplied subnet wasn't correctly aligned
         return ($ip & $mask) == $subnet;
     }
 
@@ -129,8 +128,8 @@ class IpUtil {
      *
      * @link http://stackoverflow.com/questions/594112/matching-an-ip-to-a-cidr-mask-in-php5
      *
-     * @param string $ip
-     * @param string $cidr
+     * @param  string $ip
+     * @param  string $cidr
      * @return boolean
      */
     protected static function cidrMatch64bit($ip, $cidr)
@@ -146,11 +145,12 @@ class IpUtil {
     /**
      * 64 bit ip2long function compacted to 32 bits
      *
-     * @param string $ip
-     * @param int $bits
+     * @param  string $ip
+     * @param  int    $bits
      * @return int
      */
-    protected static function ip2long64($ip, $bits) {
+    protected static function ip2long64($ip, $bits)
+    {
         return (-1 << (32 - $bits)) & \ip2long($ip);
     }
 }

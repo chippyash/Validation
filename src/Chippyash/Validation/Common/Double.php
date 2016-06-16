@@ -6,7 +6,7 @@
  *
  * Common validations
  *
- * @author Ashley Kitson
+ * @author    Ashley Kitson
  * @copyright Ashley Kitson, 2015, UK
  *
  * @link http://php.net/manual/en/functions.anonymous.php
@@ -20,7 +20,6 @@ use Monad\Option;
 
 /**
  * Validator to check for a double
- *
  */
 class Double extends AbstractValidator
 {
@@ -31,18 +30,19 @@ class Double extends AbstractValidator
     /**
      * Do the validation
      *
-     * @param mixed $value
+     * @param  mixed $value
      * @return boolean
      */
     protected function validate($value)
     {
-        return Match::on(Option::create(preg_match(self::REGEX_DOUBLE, $value),0))
+        return Match::on(Option::create(preg_match(self::REGEX_DOUBLE, $value), 0))
             ->Monad_Option_Some(true)
-            ->Monad_Option_None(function(){
-                $this->messenger->add(new StringType(self::ERR_MSG));
-                return false;
-            })
+            ->Monad_Option_None(
+                function () {
+                    $this->messenger->add(new StringType(self::ERR_MSG));
+                    return false;
+                }
+            )
             ->value();
     }
 }
-

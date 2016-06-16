@@ -4,7 +4,7 @@
  *
  * Validation
  *
- * @author Ashley Kitson
+ * @author    Ashley Kitson
  * @copyright Ashley Kitson, 2015, UK
  *
  * @link http://php.net/manual/en/functions.anonymous.php
@@ -50,28 +50,12 @@ class Messenger
     /**
      * Do we have a particular message?
      *
-     * @param StringType $msg
+     * @param  StringType $msg
      * @return boolean
      */
     public function has(StringType $msg)
     {
         return in_array($msg(), $this->messages);
-    }
-
-    /**
-     * Return string containing imploded message array
-     *
-     * @param string $separator
-     * @return string
-     */
-    public function implode($separator = ' : ')
-    {
-        $m = array_map(
-                function(StringType $msg) {return $msg();},
-                $this->messages
-        );
-
-        return implode($separator, $m);
     }
 
     /**
@@ -83,6 +67,24 @@ class Messenger
     public function __toString()
     {
         return $this->implode();
+    }
+
+    /**
+     * Return string containing imploded message array
+     *
+     * @param  string $separator
+     * @return string
+     */
+    public function implode($separator = ' : ')
+    {
+        $m = array_map(
+            function (StringType $msg) {
+                return $msg();
+            },
+            $this->messages
+        );
+
+        return implode($separator, $m);
     }
 
     /**

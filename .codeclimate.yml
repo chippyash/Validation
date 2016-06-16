@@ -1,0 +1,14 @@
+---
+exclude_paths:
+- test/*
+- docs/*
+- examples/*
+- vendor/*
+ratings:
+  paths:
+  - "**.php"
+engines:
+  phpmd:
+    enabled: true
+  phpcodesniffer:
+    enabled: true

@@ -6,7 +6,7 @@
  *
  * Common validations
  *
- * @author Ashley Kitson
+ * @author    Ashley Kitson
  * @copyright Ashley Kitson, 2015, UK
  *
  * @link http://en.wikipedia.org/wiki/ISO_8601
@@ -16,6 +16,7 @@
 namespace Chippyash\Validation\Common\ISO8601;
 
 use Chippyash\Validation\Common\ISO8601\Constants as C;
+use Monad\Match;
 
 /**
  * Utility helper for ISODateString validator
@@ -52,29 +53,33 @@ class SplitDate
 
     public function __construct($laxTime, $laxZone, $format)
     {
-        $this->laxTime = (boolean) $laxTime;
-        $this->laxZone = (boolean) $laxZone;
+        $this->laxTime = (boolean)$laxTime;
+        $this->laxZone = (boolean)$laxZone;
         $this->format = $format;
     }
 
     /**
      * Split date by its parts
      *
-     * @param string $value  ISO datetime string
+     * @param  string $value ISO datetime string
      * @return array[date, time, zone, timePartFound]
      */
     public function splitDate($value)
     {
-        if ($this->laxTime) {
-            $parts = explode(' ', $value);
-            //join back zone part if found
-            if (count($parts) == 3) {
-                $parts[1] .= ' ' . $parts[2];
-                unset($parts[2]);
-            }
-        } else {
-            $parts = explode('t', $value);
-        }
+        $parts = Match::on($this->laxTime)
+            ->test(true, function () use ($value) {
+                $parts = explode(' ', $value);
+                //join back zone part if found
+                if (count($parts) == 3) {
+                    $parts[1] .= ' ' . $parts[2];
+                    unset($parts[2]);
+                }
+                return $parts;
+            })
+            ->test(false, function () use ($value) {
+                return explode('t', $value);
+            })
+            ->value();
         //guard
         if (count($parts) == 0 || count($parts) > 2 || (count($parts) == 1 && empty($parts[0]))) {
             return array(null, null, null, $this->timepartFound, $this->zonepartFound);
@@ -91,18 +96,18 @@ class SplitDate
                 return array($parts[0], $time, $zone, $this->timepartFound, $this->zonepartFound);
             } elseif (!is_null($time)) {
                 return array($parts[0], $time, null, $this->timepartFound, $this->zonepartFound);
-            } else {
-                return array($parts[0], null, null, $this->timepartFound, $this->zonepartFound);
             }
-        } else {
+
             return array($parts[0], null, null, $this->timepartFound, $this->zonepartFound);
         }
+
+        return array($parts[0], null, null, $this->timepartFound, $this->zonepartFound);
     }
 
     /**
      * Split timezone by its parts
      *
-     * @param string $value
+     * @param  string $value
      * @return array[time, zone]
      */
     protected function splitTime($value)
@@ -157,17 +162,17 @@ class SplitDate
     {
         if (\date_default_timezone_get() == 'UTC') {
             return 'UTC'; //already in UTC. workaround as zone must be non empty
-        } else {
-            $timezone = new \DateTimeZone(\date_default_timezone_get()); // Get default system timezone to create a new DateTimeZone object
-            $offset = $timezone->getOffset(new \DateTime()); // Offset in seconds to UTC
-            $offsetHours = round(abs($offset)/3600);
-            $offsetMinutes = round((abs($offset) - $offsetHours * 3600) / 60);
-            $offsetString = ($offset < 0 ? '-' : '+')
-                        . ($offsetHours < 10 ? '0' : '') . $offsetHours
-                        . ($this->format == C::FORMAT_EXTENDED || $this->format == C::FORMAT_EXTENDED_SIGNED ? ':' : '')
-                        . ($offsetMinutes < 10 ? '0' : '') . $offsetMinutes;
-
-            return $offsetString;
         }
+         
+        $timezone = new \DateTimeZone(\date_default_timezone_get()); // Get default system timezone to create a new DateTimeZone object
+        $offset = $timezone->getOffset(new \DateTime()); // Offset in seconds to UTC
+        $offsetHours = round(abs($offset) / 3600);
+        $offsetMinutes = round((abs($offset) - $offsetHours * 3600) / 60);
+        $offsetString = ($offset < 0 ? '-' : '+')
+            . ($offsetHours < 10 ? '0' : '') . $offsetHours
+            . ($this->format == C::FORMAT_EXTENDED || $this->format == C::FORMAT_EXTENDED_SIGNED ? ':' : '')
+            . ($offsetMinutes < 10 ? '0' : '') . $offsetMinutes;
+
+        return $offsetString;
     }
 }

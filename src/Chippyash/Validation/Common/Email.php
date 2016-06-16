@@ -6,7 +6,7 @@
  *
  * Common validations
  *
- * @author Ashley Kitson
+ * @author    Ashley Kitson
  * @copyright Ashley Kitson, 2015, UK
  *
  * @link http://php.net/manual/en/functions.anonymous.php
@@ -33,4 +33,3 @@ class Email extends ZFValidator
         parent::__construct(new EmailAddress());
     }
 }
-

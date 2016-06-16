@@ -4,7 +4,7 @@
  *
  * Validation
  *
- * @author Ashley Kitson
+ * @author    Ashley Kitson
  * @copyright Ashley Kitson, 2015, UK
  *
  * @link http://php.net/manual/en/functions.anonymous.php
@@ -31,18 +31,18 @@ class ValidationException extends \Exception
     /**
      * Assert a test and throw this exception if it returns true
      *
-     * @param callable $test Function returning true if error condition exists
-     * @param string $message Message for exception
-     * @param int $code Code for exception
+     * @param callable $test    Function returning true if error condition exists
+     * @param string   $message Message for exception
+     * @param int      $code    Code for exception
      *
      * @throws ValidationException
      * @throws static
      */
-    static public function assert($test, $message, $code = null)
+    public static function assert($test, $message, $code = null)
     {
-       if (!is_callable($test)) {
-           throw new self('Test for assert is not callable', 500);
-       }
+        if (!is_callable($test)) {
+            throw new self('Test for assert is not callable', 500);
+        }
         if ($test() === true) {
             throw new static($message, $code);
         }

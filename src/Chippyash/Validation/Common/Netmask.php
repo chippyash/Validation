@@ -6,22 +6,20 @@
  *
  * Common validations
  *
- * @author Ashley Kitson
+ * @author    Ashley Kitson
  * @copyright Ashley Kitson, 2015, UK
  */
 
 namespace Chippyash\Validation\Common;
 
-use Chippyash\Validation\Util\IpUtil;
-use Chippyash\Validation\Exceptions\ValidationException;
 use Chippyash\Type\String\StringType;
+use Chippyash\Validation\Util\IpUtil;
 use Monad\FTry;
 use Monad\Match;
 use Monad\Option;
 
 /**
  * Validator to check current ip against a netmask
- *
  */
 class Netmask extends AbstractValidator
 {
@@ -58,37 +56,49 @@ class Netmask extends AbstractValidator
         $ip = (empty($ip) ? IpUtil::getUserIp() : $ip);
 
         return Match::on(
-            FTry::with(function() use($ip) {
-                return array_reduce(
-                    $this->netmasks,
-                    function(&$result, $cidr) use ($ip) {
-                        return $result || IpUtil::cidrMatch($ip, $cidr);
-                    },
-                    false);
-            })
+            FTry::with(
+                function () use ($ip) {
+                    return array_reduce(
+                        $this->netmasks,
+                        function (&$result, $cidr) use ($ip) {
+                            return $result || IpUtil::cidrMatch($ip, $cidr);
+                        },
+                        false
+                    );
+                }
+            )
         )
-            ->Monad_FTry_Success(function($value){
-                return Match::on(Option::create($value->flatten(), false))
+            ->Monad_FTry_Success(
+                function ($value) {
+                    return Match::on(Option::create($value->flatten(), false))
                     ->Monad_Option_Some(true)
-                    ->Monad_Option_None(function(){
-                        $this->messenger->add(new StringType(self::ERR_MSG1));
-                        return false;
-                    })
+                    ->Monad_Option_None(
+                        function () {
+                            $this->messenger->add(new StringType(self::ERR_MSG1));
+                            return false;
+                        }
+                    )
                     ->value();
-            })
-            ->Monad_FTry_Failure(function($e){
-                return Match::on(Option::create(strpos($e->value()->getMessage(), 'cidr'), false))
-                    ->Monad_Option_Some(function(){
-                        $this->messenger->add(new StringType(self::ERR_MSG2));
-                        return false;
-                    })
-                    ->Monad_Option_None(function(){
-                        $this->messenger->add(new StringType(self::ERR_MSG1));
-                        return false;
-                    })
+                }
+            )
+            ->Monad_FTry_Failure(
+                function ($e) {
+                    return Match::on(Option::create(strpos($e->value()->getMessage(), 'cidr'), false))
+                    ->Monad_Option_Some(
+                        function () {
+                            $this->messenger->add(new StringType(self::ERR_MSG2));
+                            return false;
+                        }
+                    )
+                    ->Monad_Option_None(
+                        function () {
+                            $this->messenger->add(new StringType(self::ERR_MSG1));
+                            return false;
+                        }
+                    )
                     ->value();
-            })
+                }
+            )
             ->value();
     }
-
 }

@@ -4,15 +4,15 @@
  *
  * Functional validation
  *
- * @author Ashley Kitson
+ * @author    Ashley Kitson
  * @copyright Ashley Kitson, 2015, UK
  */
 namespace Chippyash\Validation\Pattern;
 
 use Chippyash\Type\Number\IntType;
 use Chippyash\Type\String\StringType;
-use Chippyash\Validation\Exceptions\ValidationException;
 use Chippyash\Validation\Common\IsTraversable;
+use Chippyash\Validation\Exceptions\ValidationException;
 
 /**
  * Test for a repeatable object.
@@ -49,8 +49,8 @@ class Repeater extends IsTraversable
      * Constructor
      *
      * @param ValidatorPatternInterface $validator
-     * @param IntType|null $min
-     * @param IntType|null $max
+     * @param IntType|null              $min
+     * @param IntType|null              $max
      *
      * @throws ValidationException
      */
@@ -74,7 +74,7 @@ class Repeater extends IsTraversable
     /**
      * Do the validation
      *
-     * @param Traversable|array $value
+     * @param  \Traversable|array $value
      * @return boolean
      */
     protected function validate($value)
@@ -96,7 +96,7 @@ class Repeater extends IsTraversable
         $validator = $this->validator;
         foreach ($value as $k => $v) {
             if (!$validator($v, $this->messenger)) {
-                $this->messenger->add(new StringType(sprintf(self::ERR_ITEM, (string) $k)));
+                $this->messenger->add(new StringType(sprintf(self::ERR_ITEM, (string)$k)));
                 return false;
             }
         }

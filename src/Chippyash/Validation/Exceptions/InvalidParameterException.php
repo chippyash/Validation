@@ -4,18 +4,18 @@
  *
  * Validation
  *
- * @author Ashley Kitson
+ * @author    Ashley Kitson
  * @copyright Ashley Kitson, 2015, UK
  *
  * @link http://php.net/manual/en/functions.anonymous.php
  */
 namespace Chippyash\Validation\Exceptions;
 
-
 /**
  * Invalid parameter exception
  */
-class InvalidParameterException extends ValidationException {
+class InvalidParameterException extends ValidationException
+{
 
     protected $msg = 'Invalid or missing parameter: %s';
 

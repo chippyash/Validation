@@ -6,7 +6,7 @@
  *
  * Common validations
  *
- * @author Ashley Kitson
+ * @author    Ashley Kitson
  * @copyright Ashley Kitson, 2015, UK
  *
  * @link http://php.net/manual/en/functions.anonymous.php
@@ -14,8 +14,8 @@
 
 namespace Chippyash\Validation\Pattern;
 
-use Chippyash\Validation\Common\AbstractValidator;
 use Chippyash\Type\String\StringType;
+use Chippyash\Validation\Common\AbstractValidator;
 
 /**
  * Test that a value has a value type map matching
@@ -53,7 +53,8 @@ use Chippyash\Type\String\StringType;
  * ]
  *  ValidationProcessor->add(new HasTypeMap($valueMap));
  */
-class HasTypeMap extends AbstractValidator {
+class HasTypeMap extends AbstractValidator
+{
 
     /**
      * User supplied types map
@@ -73,23 +74,24 @@ class HasTypeMap extends AbstractValidator {
      *
      * @param array $typeMap types map to be checked against
      */
-    public function __construct(array $typeMap) {
+    public function __construct(array $typeMap)
+    {
         $this->typeMap = $typeMap;
     }
 
     /**
      * Do the validation
-     * 
-     * @param mixed $value
+     *
+     * @param  mixed $value
      * @return boolean
      */
     protected function validate($value)
     {
-        $parsedValue = $this->parseValue($value);
+        $parsedValue = $this->parsevalue($value);
         if ($parsedValue === false) {
             $this->messenger->add(new StringType('Value cannot be mapped'));
         }
-        //$ret = ($parsedValue == $this->typeMap);
+
         $ret = $this->rValidate($parsedValue, $this->typeMap, $value);
         if (!$ret) {
             $this->messenger->add(new StringType('Value has invalid type map'));
@@ -101,7 +103,7 @@ class HasTypeMap extends AbstractValidator {
     /**
      * Parse the value into a type map
      *
-     * @param mixed $value
+     * @param  mixed $value
      * @return array|false
      */
     protected function parsevalue($value)
@@ -117,7 +119,7 @@ class HasTypeMap extends AbstractValidator {
     /**
      * Recursive value type parser
      *
-     * @param mixed $parsableValue
+     * @param  mixed $parsableValue
      * @return array|string
      */
     protected function rParseValue($parsableValue)
@@ -126,9 +128,9 @@ class HasTypeMap extends AbstractValidator {
         foreach ($parsableValue as $key => $value) {
             if (is_array($value) || $value instanceof \ArrayAccess || is_object($value)) {
                 $ret[$key] = $this->rParseValue($value);
-            } else {
-                $ret[$key] = $this->normalizeType($value);
+                continue;
             }
+            $ret[$key] = $this->normalizeType($value);
         }
         if (empty($ret)) {
             //value did not traverse so return the type
@@ -141,29 +143,25 @@ class HasTypeMap extends AbstractValidator {
     /**
      * Normalize a value type
      *
-     * @param mixed $value
+     * @param  mixed $value
      * @return string
      */
-    protected function normalizeType($value) {
+    protected function normalizeType($value)
+    {
         $actType = gettype($value);
-        switch ($actType) {
-            case "object":
-                $ret = get_class($value);
-                break;
-            default: //"integer" "double" "string", "boolean", "resource", "NULL", "unknown"
-                $ret = $actType;
-                break;
+        if ($actType === 'object') {
+            return get_class($value);
         }
 
-        return $ret;
+        return $actType;
     }
 
     /**
      * Recursive validator
      *
-     * @param mixed $valueMap - map of types for the value under test
-     * @param mixed $typeMap - map of types required
-     * @param mixed $actValue - the value under test
+     * @param  mixed $valueMap - map of types for the value under test
+     * @param  mixed $typeMap - map of types required
+     * @param  mixed $actValue - the value under test
      * @return boolean
      */
     protected function rValidate($valueMap, $typeMap, $actValue)
@@ -172,63 +170,57 @@ class HasTypeMap extends AbstractValidator {
         foreach ($typeMap as $key => $type) {
             if (!isset($valueMap[$key])) {
                 $this->messenger->add(new StringType("Value key:{$key} does not exist"));
-                $ret = false;
+                return false;
             } elseif (is_callable($type)) {
                 $testValue = $this->issetInObjectOrArray($actValue, $key);
-                if($testValue === false){
-                    $ret = false;
-                } else {
-                    $ret = $ret && $type($testValue, $this->messenger);
-                    if (!$ret) {
-                        $this->messenger->add(new StringType("Value key:{$key} did not return true from a function call"));
-                    }
+                if ($testValue === false) {
+                    return false;
                 }
+                $ret = $type($testValue, $this->messenger);
+                if (!$ret) {
+                    $this->messenger->add(
+                        new StringType("Value key:{$key} did not return true from a function call")
+                    );
+                }
+                return $ret;
             } elseif (is_array($type) || $type instanceof \ArrayAccess || is_object($type)) {
                 $testValue = $this->issetInObjectOrArray($actValue, $key);
-                if($testValue === false){
-                    $ret = false;
-                } else {
-                    $ret = $ret && $this->rValidate($valueMap[$key], $type, $testValue);
-                    if (!$ret) {
-                        $implodedType = implode(':', array_keys($type));
-                        $this->messenger->add(new StringType("Value key:{$key} is not of type:[{$implodedType}]"));
-                    }
+                if ($testValue === false) {
+                    return false;
                 }
-            } else {
-                $ret = $ret && ($valueMap[$key] == $type);
+                $ret = $ret && $this->rValidate($valueMap[$key], $type, $testValue);
                 if (!$ret) {
-                    $this->messenger->add(new StringType("Value key:{$key} is not of type:{$type}"));
+                    $implodedType = implode(':', array_keys($type));
+                    $this->messenger->add(new StringType("Value key:{$key} is not of type:[{$implodedType}]"));
                 }
+                return $ret;
             }
-
+            $ret = ($valueMap[$key] == $type);
             if (!$ret) {
-                break; //no point in continuing
+                $this->messenger->add(new StringType("Value key:{$key} is not of type:{$type}"));
+                return $ret;
             }
         }
 
-        return $ret;
+        return true;
     }
 
     /**
      * Test if key isset in either Object or Array
      *
-     * @param Object|array $actValue
-     * @param string $key
+     * @param  Object|array $actValue
+     * @param  string $key
      * @return boolean|string
      */
     protected function issetInObjectOrArray($actValue, $key)
     {
-        $ret = false;
-        if (is_object($actValue)) {
-            if (property_exists($actValue, $key)) {
-                $ret = $actValue->$key;
-            }
-        } else {
-            if (isset($actValue[$key])) {
-                $ret = $actValue[$key];
-            }
+        if (is_object($actValue) && property_exists($actValue, $key)) {
+            return $actValue->$key;
+        }
+        if (isset($actValue[$key])) {
+            return $actValue[$key];
         }
 
-        return $ret;
+        return false;
     }
 }

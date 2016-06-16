@@ -6,7 +6,7 @@
  *
  * Common validations
  *
- * @author Ashley Kitson
+ * @author    Ashley Kitson
  * @copyright Ashley Kitson, 2015, UK
  *
  * @link http://en.wikipedia.org/wiki/ISO_8601
@@ -15,7 +15,6 @@ namespace Chippyash\Validation\Common\ISO8601;
 
 /**
  * ISO 8601 Datestring constants
- *
  */
 abstract class Constants
 {
@@ -94,19 +93,19 @@ abstract class Constants
      * Post validation you can test if $messenger->has() a format
      * to determine the date format
      */
-    const FMT_KEY_BYO   = 'basicYearOnly';
-    const FMT_KEY_BYMD  = 'basicYearMonthDay';
-    const FMT_KEY_BW    = 'basicWeek';
-    const FMT_KEY_BWPD  = 'basicWeekPlusDay';
-    const FMT_KEY_BO    = 'basicOrdinal';
+    const FMT_KEY_BYO = 'basicYearOnly';
+    const FMT_KEY_BYMD = 'basicYearMonthDay';
+    const FMT_KEY_BW = 'basicWeek';
+    const FMT_KEY_BWPD = 'basicWeekPlusDay';
+    const FMT_KEY_BO = 'basicOrdinal';
     const FMT_KEY_BTHMS = 'basicTimeHourMinSec';
-    const FMT_KEY_BTHM  = 'basicTimeHourMin';
-    const FMT_KEY_BTH   = 'basicTimeHour';
-    const FMT_KEY_BDTHMS= 'basicDecimalTimeHourMinSec';
+    const FMT_KEY_BTHM = 'basicTimeHourMin';
+    const FMT_KEY_BTH = 'basicTimeHour';
+    const FMT_KEY_BDTHMS = 'basicDecimalTimeHourMinSec';
     const FMT_KEY_BDTHM = 'basicDecimalTimeHourMin';
-    const FMT_KEY_BDTH  = 'basicDecimalTimeHour';
-    const FMT_KEY_BZPH  = 'basicZonePositiveHour';
-    const FMT_KEY_BZNH  = 'basicZoneNegativeHour';
+    const FMT_KEY_BDTH = 'basicDecimalTimeHour';
+    const FMT_KEY_BZPH = 'basicZonePositiveHour';
+    const FMT_KEY_BZNH = 'basicZoneNegativeHour';
     const FMT_KEY_BZPHM = 'basicZonePositiveHourMin';
     const FMT_KEY_BZNHM = 'basicZoneNegativeHourMin';
     const FMT_KEY_BZUTC = 'basicZoneUTC';
@@ -117,18 +116,18 @@ abstract class Constants
      * Post validation you can test if $messenger->has() a format
      * to determine the date format
      */
-    const FMT_KEY_EYO   = 'extendedYearOnly';
-    const FMT_KEY_EYM   = 'extendedYearMonth';
-    const FMT_KEY_EYMD  = 'extendedYearMonthDay';
-    const FMT_KEY_EW    = 'extendedWeek';
-    const FMT_KEY_EWPD  = 'extendedWeekPlusDay';
-    const FMT_KEY_EO    = 'extendedOrdinal';
+    const FMT_KEY_EYO = 'extendedYearOnly';
+    const FMT_KEY_EYM = 'extendedYearMonth';
+    const FMT_KEY_EYMD = 'extendedYearMonthDay';
+    const FMT_KEY_EW = 'extendedWeek';
+    const FMT_KEY_EWPD = 'extendedWeekPlusDay';
+    const FMT_KEY_EO = 'extendedOrdinal';
     const FMT_KEY_ETHMS = 'extendedTimeHourMinSec';
-    const FMT_KEY_ETHM  = 'extendedTimeHourMin';
-    const FMT_KEY_EDTHMS= 'extendedDecimalTimeHourMinSec';
+    const FMT_KEY_ETHM = 'extendedTimeHourMin';
+    const FMT_KEY_EDTHMS = 'extendedDecimalTimeHourMinSec';
     const FMT_KEY_EDTHM = 'extendedDecimalTimeHourMin';
-    const FMT_KEY_EZPH  = 'extendedZonePositiveHour';
-    const FMT_KEY_EZNH  = 'extendedZoneNegativeHour';
+    const FMT_KEY_EZPH = 'extendedZonePositiveHour';
+    const FMT_KEY_EZNH = 'extendedZoneNegativeHour';
     const FMT_KEY_EZPHM = 'extendedZonePositiveHourMin';
     const FMT_KEY_EZNHM = 'extendedZoneNegativeHourMin';
     const FMT_KEY_EZUTC = 'extendedZoneUTC';
@@ -138,9 +137,8 @@ abstract class Constants
      * Post validation you can test if $messenger->has() a format
      * to determine the date format
      */
-    const FMT_KEY_SBYO  = 'signedBasicYearOnly';
-    const FMT_KEY_SEYO  = 'signedExtendedYearOnly';
-    const FMT_KEY_SEYM  = 'signedExtendedYearMonth';
+    const FMT_KEY_SBYO = 'signedBasicYearOnly';
+    const FMT_KEY_SEYO = 'signedExtendedYearOnly';
+    const FMT_KEY_SEYM = 'signedExtendedYearMonth';
     const FMT_KEY_SEYMD = 'signedExtendedYearMonthDay';
-
 }

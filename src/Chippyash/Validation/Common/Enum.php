@@ -6,7 +6,7 @@
  *
  * Common validations
  *
- * @author Ashley Kitson
+ * @author    Ashley Kitson
  * @copyright Ashley Kitson, 2015, UK
  *
  * @link http://php.net/manual/en/functions.anonymous.php
@@ -20,7 +20,6 @@ use Monad\Option;
 
 /**
  * Validator for a value being one of set of values (enumeration)
- *
  */
 class Enum extends AbstractValidator
 {
@@ -45,18 +44,19 @@ class Enum extends AbstractValidator
     /**
      * Do the validation
      *
-     * @param mixed $value
+     * @param  mixed $value
      * @return boolean
      */
     protected function validate($value)
     {
-        return Match::on(Option::create(in_array($value, $this->enum),false))
+        return Match::on(Option::create(in_array($value, $this->enum), false))
             ->Monad_Option_Some(true)
-            ->Monad_Option_None(function(){
-                $this->messenger->add(new StringType(self::ERR_MSG));
-                return false;
-            })
+            ->Monad_Option_None(
+                function () {
+                    $this->messenger->add(new StringType(self::ERR_MSG));
+                    return false;
+                }
+            )
             ->value();
     }
 }
-
