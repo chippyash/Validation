@@ -10,5 +10,13 @@ ratings:
 engines:
   phpmd:
     enabled: true
+    checks:
+      Controversial/Superglobals:
+        enabled: false
   phpcodesniffer:
     enabled: true
+    checks:
+      PSR2 Methods FunctionCallSignature Indent:
+        enabled: false
+      Generic WhiteSpace ScopeIndent Incorrect:
+        enabled: false
