@@ -13,7 +13,7 @@
   "require": {
     "php": ">=5.4",
     "chippyash/strong-type": "~3",
-    "chippyash/monad": "~1.2.4",
+    "chippyash/monad": "~1.3.0",
     "zendframework/zend-validator": "2.5.*",
     "zendframework/zend-filter": "2.5.*"
   },
