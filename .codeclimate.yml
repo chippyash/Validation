@@ -13,6 +13,8 @@ engines:
     checks:
       Controversial/Superglobals:
         enabled: false
+      CleanCode/StaticAccess:
+        enabled: false
   phpcodesniffer:
     enabled: true
     checks:
