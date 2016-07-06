@@ -41,8 +41,6 @@ class Lambda extends AbstractValidator
      *
      * @throws ValidationException
      * @throws static
-     *
-     * @internal param callable $function function accepting value and optional Messenger, returning boolean
      */
     public function __construct(callable $func, StringType $msg = null)
     {
