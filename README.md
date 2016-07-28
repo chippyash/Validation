@@ -456,3 +456,5 @@ V1.1.2 Add link to packages
 V1.1.3 Verify PHP 7 compatibility
 
 V1.1.4 Remove @internal flag on Lambda validator
+
+V1.1.5 Allow wider range of zend dependencies
