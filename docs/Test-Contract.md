@@ -1,29 +1,21 @@
 # Chippyash Validation
 
-## 
-      Chippyash\Test\Validation\Common\Double
-    
+## Chippyash\Test\Validation\Common\Double
 
 *  Will return correct response for test data set via magic invoke method
 *  Will return correct response for test data set via is valid method
 
-## 
-      Chippyash\Test\Validation\Common\Email
-    
+## Chippyash\Test\Validation\Common\Email
 
 *  Will return correct response for test data set via magic invoke method
 *  Will return correct response for test data set via is valid method
 
-## 
-      Chippyash\Test\Validation\Common\Enum
-    
+## Chippyash\Test\Validation\Common\Enum
 
 *  Will return correct response for test data set via magic invoke method
 *  Will return correct response for test data set via is valid method
 
-## 
-      Chippyash\Test\Validation\Common\ISO8601DateString
-    
+## Chippyash\Test\Validation\Common\ISO8601DateString
 
 *  Constructing with a null format will default to extended format
 *  Constructing with a none format will default to extended format
@@ -45,64 +37,48 @@
 *  You can validate p h p compatibility on a basic date
 *  You can validate p h p compatibility on an extended date
 
-## 
-      Chippyash\Test\Test\Validation\Common\IsArray
-    
+## Chippyash\Test\Test\Validation\Common\IsArray
 
 *  Will return correct response for test data set via magic invoke method
 *  Will return correct response for test data set via is valid method
 *  You can optionally test for an empty array
 
-## 
-      Chippyash\Test\Validation\Pattern\IsTraversable
-    
+## Chippyash\Test\Validation\Pattern\IsTraversable
 
 *  You can validate with an array
 *  You can validate with a traversable
 *  You can validate with a std class
 *  Validating with a non traversable will return false
 
-## 
-      Chippyash\Test\Validation\Common\Lambda
-    
+## Chippyash\Test\Validation\Common\Lambda
 
 *  If the lambda returns true then the validator will return true
 *  If lamda returns false then default message will be used if none set
 *  If lamda returns false then custom message will be used if set
 *  You can access the messenger from within a callable function
 
-## 
-      Chippyash\Test\Validation\Common\Netmask
-    
+## Chippyash\Test\Validation\Common\Netmask
 
 *  Will return correct response for test data set via magic invoke method
 *  Will return correct response for test data set via is valid method
 
-## 
-      Chippyash\Test\Validation\Common\UKPostCode
-    
+## Chippyash\Test\Validation\Common\UKPostCode
 
 *  You can invoke the validator
 *  You can validate using is valid method
 
-## 
-      Chippyash\Test\Validation\Common\UKTelnum
-    
+## Chippyash\Test\Validation\Common\UKTelnum
 
 *  You can validate using is valid method
 *  You can invoke the validator
 
-## 
-      Chippyash\Test\Validation\Common\Zend
-    
+## Chippyash\Test\Validation\Common\Zend
 
 *  Will return correct response for test data set via magic invoke method
 *  Will return correct response for test data set via is valid method
 *  You can get the underlying zend error messages
 
-## 
-      Chippyash\Test\Validation\Exceptions\ValidationException
-    
+## Chippyash\Test\Validation\Exceptions\ValidationException
 
 *  You can throw a validation exception
 *  Validation exception has a default message
@@ -110,39 +86,27 @@
 *  You can assert a validation exception
 *  Trying to assert a validation exception with a non callable function will throw a validation exception
 
-## 
-      Chippyash\Test\Validation\Logical\Combination
-    
+## Chippyash\Test\Validation\Logical\Combination
 
 *  Combinations of the logical validators work correctly
 
-## 
-      Chippyash\Test\Validation\Logical\LAnd
-    
+## Chippyash\Test\Validation\Logical\LAnd
 
 *  The and logical validator returns expected response
 
-## 
-      Chippyash\Test\Validation\Logical\LNot
-    
+## Chippyash\Test\Validation\Logical\LNot
 
 *  The not logical validator returns expected response
 
-## 
-      Chippyash\Test\Validation\Logical\LOr
-    
+## Chippyash\Test\Validation\Logical\LOr
 
 *  The or logical validator returns expected response
 
-## 
-      Chippyash\Test\Validation\Logical\LXor
-    
+## Chippyash\Test\Validation\Logical\LXor
 
 *  The xor logical validator returns expected response
 
-## 
-      Chippyash\Test\Validation\Messenger
-    
+## Chippyash\Test\Validation\Messenger
 
 *  You can add string type messages
 *  Calling get will return an array of string type messages
@@ -150,9 +114,7 @@
 *  You can clear the messages
 *  You can test if the messenger has a message
 
-## 
-      Chippyash\Test\Validation\Pattern\HasTypeMap
-    
+## Chippyash\Test\Validation\Pattern\HasTypeMap
 
 *  You can construct the pattern
 *  The validation value may be an array
@@ -168,9 +130,7 @@
 *  The pattern will fail if value for a traversable value is false
 *  You can use a traversable function for a validation type
 
-## 
-      Chippyash\Test\Test\Validation\Pattern\Repeater
-    
+## Chippyash\Test\Test\Validation\Pattern\Repeater
 
 *  A repeater expects value to be traversable
 *  A default repeater will succeed for zero or more repetions
@@ -179,9 +139,7 @@
 *  Maximum must not be less than minimum
 *  A repeater will apply the validation to all value items until it finds an invalid one
 
-## 
-      Chippyash\Test\Validation\Util\IpUtil
-    
+## Chippyash\Test\Validation\Util\IpUtil
 
 *  You can get the client user ip for http request if available
 *  Is valid i p returns boolean
@@ -190,9 +148,7 @@
 *  Cidr match will throw exception for invalid ip
 *  Cidr match will throw exception for invalid cidr
 
-## 
-      Chippyash\Test\Validation\ValidationProcessor
-    
+## Chippyash\Test\Validation\ValidationProcessor
 
 *  You can construct a validation processor with the correct parameters
 *  Constructing with bad parameters will throw an exception
