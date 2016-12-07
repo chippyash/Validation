@@ -181,8 +181,9 @@ class HasTypeMap extends AbstractValidator
                     $this->messenger->add(
                         new StringType("Value key:{$key} did not return true from a function call")
                     );
+                    return false;
                 }
-                return $ret;
+                continue;
             } elseif (is_array($type) || $type instanceof \ArrayAccess || is_object($type)) {
                 $testValue = $this->issetInObjectOrArray($actValue, $key);
                 if ($testValue === false) {
@@ -192,13 +193,14 @@ class HasTypeMap extends AbstractValidator
                 if (!$ret) {
                     $implodedType = implode(':', array_keys($type));
                     $this->messenger->add(new StringType("Value key:{$key} is not of type:[{$implodedType}]"));
+                    return false;
                 }
-                return $ret;
+                continue;
             }
             $ret = ($valueMap[$key] == $type);
             if (!$ret) {
                 $this->messenger->add(new StringType("Value key:{$key} is not of type:{$type}"));
-                return $ret;
+                return false;
             }
         }
 
