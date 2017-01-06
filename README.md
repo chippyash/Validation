@@ -75,9 +75,11 @@ supply the Messenger:
 
 ### Simple Validators
 
+- Chippyash\Validation\Common\DigitString: does the value contain only numeric characters? 
 - Chippyash\Validation\Common\Double: Is the supplied string equivalent to a double (float) value;
 - Chippyash\Validation\Common\Email: Is the supplied string a simple email address
-- Chippyash\Validation\Common\Enum: Is supplied string one of a known set of strings 
+- Chippyash\Validation\Common\Enum: Is supplied string one of a known set of strings
+
 
 <pre>
     use Chippyash\Validation\Common\Enum;
@@ -87,6 +89,8 @@ supply the Messenger:
 </pre>
 
 - Chippyash\Validation\Common\IsArray: Is the supplied value an array?
+- Chippyash\Validation\Common\ArrayKeyExists: Is value and array and has the required key?
+- Chippyash\Validation\Common\ArrayKeyNotExists: Is value and array and does not have the required key?
 - Chippyash\Validation\Common\IsTraversable: Is the supplied value traversable?
 - Chippyash\Validation\Common\Netmask: Does the supplied IP address belong to the
 constructed Net Mask (CIDR)
@@ -117,8 +121,22 @@ to create any validator using the Zend Validators.
 
 ### Complex Validators
 
-- Chippyash\Validation\Common\Lambda.  Here is where we start to depart from the Zend
-validators. The Lambda validator expects a function on construction that will accept
+Here is where we start to depart from the Zend validators. 
+
+- Chippyash\Validation\Common\ArrayPart. Is the value an array, does the required key exist, and does it validate
+according to the passed in function parameter?
+
+<pre>
+    use Chippyash\Validation\Common\ArrayPart;
+    use Chippyash\Validation\Common\Enum;
+    
+    $validator = new ArrayPart('idx', new Enum(['foo','bar'])); 
+    $ret = $validator->isValid(['idx' => 'bop']); //false  
+    $ret = $validator->isValid(['foo' => 'bop']); //false  
+    $ret = $validator->isValid(['idx' => 'bar']); //true  
+</pre>
+
+- Chippyash\Validation\Common\Lambda.  The Lambda validator expects a function on construction that will accept
 a value and return true or false:
 
 <pre>
@@ -145,6 +163,24 @@ You can pass in an optional second StringType parameter with the failure message
     if (!$validator->isValid('bar')) { //false
         $errMsg = implode(' : ', $validator->getMessages());
     }
+</pre>
+
+You can specify a Messenger parameter as the second parameter to your function declaration if
+you want to handle adding error messages manually
+
+<pre>
+    use Chippyash\Validation\Messenger;
+    use Chippyash\Validation\Common\Lambda;
+    use Chippyash\Type\String\StringType;
+    
+    $validator = new Lambda(function($value, Messenger $messenger) {
+            if ($value != 'foo') {
+                $messenger->add(new StringType('error message'));
+                return false;
+            }
+            return true;
+        }
+    );
 </pre>
 
 - Chippyash\Validation\Common\ISO8601DateString: Does the supplied string conform to 
@@ -458,3 +494,5 @@ V1.1.3 Verify PHP 7 compatibility
 V1.1.4 Remove @internal flag on Lambda validator
 
 V1.1.5 Allow wider range of zend dependencies
+
+V1.2.0 Add additional common validators

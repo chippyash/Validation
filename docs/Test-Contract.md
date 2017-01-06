@@ -1,5 +1,28 @@
 # Chippyash Validation
 
+## Chippyash\Test\Validation\Common\ArrayKeyExists
+
+*  Validation will fail if input is not an array
+*  Validation will succeed if input is an array containing required key
+*  Validation will fail if input is an array and does not contain the required key
+
+## Chippyash\Test\Validation\Common\ArrayKeyNotExists
+
+*  Validation will fail if input is not an array
+*  Validation will succeed if input is an array and does not contain the required key
+*  Validation will fail if input is an array containing required key
+
+## Chippyash\Test\Validation\Common\ArrayPart
+
+*  Validation will fail if input is not an array
+*  Validation will fail if input is an array and does not contain the required key
+*  Validation will succeed if key exists and passes additional validation
+*  Validation will fail if key exists and fails additional validation
+
+## Chippyash\Test\Validation\Common\DigitString
+
+*  Only digit strings will pass validation
+
 ## Chippyash\Test\Validation\Common\Double
 
 *  Will return correct response for test data set via magic invoke method
@@ -129,6 +152,8 @@
 *  You can use a callable function for a validation type
 *  The pattern will fail if value for a traversable value is false
 *  You can use a traversable function for a validation type
+*  Will return false if second item is missing
+*  Will return false if last item is missing
 
 ## Chippyash\Test\Test\Validation\Pattern\Repeater
 
