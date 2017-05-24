@@ -242,6 +242,4 @@ class HasTypeMapTest extends \PHPUnit_Framework_TestCase {
         $sut = new HasTypeMap($map);
         $this->assertFalse($sut($test, $this->messenger));
     }
-
-
 }
