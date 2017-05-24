@@ -496,3 +496,5 @@ V1.1.4 Remove @internal flag on Lambda validator
 V1.1.5 Allow wider range of zend dependencies
 
 V1.2.0 Add additional common validators
+
+V1.2.1 update dependencies
