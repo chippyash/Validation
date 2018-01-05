@@ -16,6 +16,13 @@ The above badges represent the current development branch.  As a rule, I don't p
  project etc.  If you need stable code, use a tagged version. Read 'Further Documentation'
  and 'Installation'.
  
+### End of life notice
+
+In March 2018, developer support will be withdrawn from this library for PHP <5.6. Older
+versions of PHP are now in such little use that the added effort of maintaining 
+compatibility is not effort effective.  See [PHP Version Stats](https://seld.be/notes/php-versions-stats-2017-1-edition)
+ for the numbers.
+ 
 ## What?
 
 Provides extensive and complex validation of nested structures.  Primary use case is
@@ -498,3 +505,5 @@ V1.1.5 Allow wider range of zend dependencies
 V1.2.0 Add additional common validators
 
 V1.2.1 update dependencies
+
+V1.2.2 update build scripts
