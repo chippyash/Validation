@@ -21,7 +21,7 @@
     "ext-intl":"*",
     "phpunit/phpunit": ">=4.8,<5",
     "mikey179/vfsStream": ">=1.6,<2",
-    "zendframework/zend-i18n": "2.4.13|~2.7.4"
+    "zendframework/zend-i18n": "2.5.1|>=2.6.0"
   },
   "autoload": {
     "psr-0": {
