@@ -507,3 +507,5 @@ V1.2.0 Add additional common validators
 V1.2.1 update dependencies
 
 V1.2.2 update build scripts
+
+V1.2.3 update composer - forced by packagist composer.json format change
