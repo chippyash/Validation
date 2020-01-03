@@ -2,10 +2,7 @@
 
 ## Quality Assurance
 
-![PHP 5.4](https://img.shields.io/badge/PHP-5.4-blue.svg)
-![PHP 5.5](https://img.shields.io/badge/PHP-5.5-blue.svg)
-![PHP 5.6](https://img.shields.io/badge/PHP-5.6-blue.svg)
-![PHP 7](https://img.shields.io/badge/PHP-7-blue.svg)
+![PHP 7.2](https://img.shields.io/badge/PHP-7.2-blue.svg)
 [![Build Status](https://travis-ci.org/chippyash/Validation.svg?branch=master)](https://travis-ci.org/chippyash/Validation)
 [![Test Coverage](https://codeclimate.com/github/chippyash/Validation/badges/coverage.svg)](https://codeclimate.com/github/chippyash/Validation/coverage)
 [![Code Climate](https://codeclimate.com/github/chippyash/Validation/badges/gpa.svg)](https://codeclimate.com/github/chippyash/Validation)
@@ -19,6 +16,9 @@ The above badges represent the current development branch.  As a rule, I don't p
 Please note that developer support for PHP5.4 & 5.5 was withdrawn at version 2.0.0 of this library.
 If you need support for PHP 5.4 or 5.5, please use a version `>=1,<2`
  
+Support for PHP <7.2 was withdrawn at version 3.0.0 of this library.
+If you need support for PHP 5.6 - 7.1, use a version `~2.0`
+
 ## What?
 
 Provides extensive and complex validation of nested structures.  Primary use case is
@@ -174,11 +174,10 @@ you want to handle adding error messages manually
 <pre>
     use Chippyash\Validation\Messenger;
     use Chippyash\Validation\Common\Lambda;
-    use Chippyash\Type\String\StringType;
     
     $validator = new Lambda(function($value, Messenger $messenger) {
             if ($value != 'foo') {
-                $messenger->add(new StringType('error message'));
+                $messenger->add('error message');
                 return false;
             }
             return true;
@@ -246,7 +245,6 @@ use Chippyash\Validation\Pattern\HasTypeMap;
 use Chippyash\Validation\Common\ISO8601DateString;
 use Chippyash\Validation\Common\IsArray;
 use Chippyash\Validation\Common\Email;
-use Chippyash\Type\Number\IntType
 
 $validator = new HasTypeMap([
     'a' => new ISO8601DateString(), 
@@ -290,7 +288,6 @@ use Chippyash\Validation\Common\ISO8601DateString;
 use Chippyash\Validation\Common\IsArray;
 use Chippyash\Validation\Common\Email;
 use Chippyash\Validation\Common\UKPostCode;
-use Chippyash\Type\Number\IntType
 
 $validator = new HasTypeMap([
     'a' => new ISO8601DateString(),
@@ -301,7 +298,7 @@ $validator = new HasTypeMap([
             'e' => new UKPostCode()
         ]),
         null,
-        new IntType(4)
+        4
     ),
     'f' => new Repeater(new Email())
 ]);
@@ -425,7 +422,7 @@ Install [Composer](https://getcomposer.org/)
 #### For production
 
 <pre>
-    "chippyash/validation": ">=2,<3"
+    "chippyash/validation": ">=3,<4"
 </pre>
 
 Or to use the latest, possibly unstable version:
@@ -456,7 +453,7 @@ To run the tests:
 
 This software library is released under the [BSD 3 Clause license](https://opensource.org/licenses/BSD-3-Clause)
 
-This software library is Copyright (c) 2015-2018, Ashley Kitson, UK
+This software library is Copyright (c) 2015-2020, Ashley Kitson, UK
 
 This software library contains code items that are derived from other works: 
 
@@ -505,3 +502,5 @@ V1.2.3 update composer - forced by packagist composer.json format change
 V2.0.0 BC Break. Withdraw old php version support
 
 V2.1.0 Change of license from GPL V3 to BSD 3 Clause 
+
+V3.0.0 BC Break. Remove PHP support < 7.2. Switch Zend dependency to Laminas
