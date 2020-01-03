@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Chippyash/validation
  *
@@ -14,7 +17,6 @@
 
 namespace Chippyash\Validation\Common;
 
-use Chippyash\Type\String\StringType;
 use Monad\Match;
 use Monad\Option;
 
@@ -23,9 +25,9 @@ use Monad\Option;
  */
 class Double extends AbstractValidator
 {
-    const ERR_MSG = 'Value is not a Double format';
+    public const ERR_MSG = 'Value is not a Double format';
 
-    const REGEX_DOUBLE = '/^[+-]?(([0-9]+)|([0-9]*\.[0-9]+|[0-9]+\.[0-9]*)|(([0-9]+|([0-9]*\.[0-9]+|[0-9]+\.[0-9]*))[eE][+-]?[0-9]+))$/';
+    public const REGEX_DOUBLE = '/^[+-]?(([0-9]+)|([0-9]*\.[0-9]+|[0-9]+\.[0-9]*)|(([0-9]+|([0-9]*\.[0-9]+|[0-9]+\.[0-9]*))[eE][+-]?[0-9]+))$/';
 
     /**
      * Do the validation
@@ -35,11 +37,11 @@ class Double extends AbstractValidator
      */
     protected function validate($value)
     {
-        return Match::on(Option::create(preg_match(self::REGEX_DOUBLE, $value), 0))
+        return Match::on(Option::create(preg_match(self::REGEX_DOUBLE, (string) $value), 0))
             ->Monad_Option_Some(true)
             ->Monad_Option_None(
                 function () {
-                    $this->messenger->add(new StringType(self::ERR_MSG));
+                    $this->messenger->add(self::ERR_MSG);
                     return false;
                 }
             )

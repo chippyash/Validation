@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Chippyash/validation
  *
@@ -14,14 +17,11 @@
 
 namespace Chippyash\Validation\Common;
 
-use Chippyash\Type\String\StringType;
-
 /**
  * Test for a traversable object
  */
 class IsTraversable extends AbstractValidator
 {
-
     /**
      * Do the validation
      *
@@ -34,7 +34,7 @@ class IsTraversable extends AbstractValidator
             $value instanceof \stdClass ||
             is_array($value));
         if (!$ret) {
-            $this->messenger->add(new StringType('value is not traversable'));
+            $this->messenger->add('value is not traversable');
         }
 
         return $ret;

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Chippyash/validation
  *
@@ -12,7 +15,6 @@
 
 namespace Chippyash\Validation\Common;
 
-use Chippyash\Type\String\StringType;
 use Chippyash\Validation\Util\IpUtil;
 use Monad\FTry;
 use Monad\Match;
@@ -23,16 +25,15 @@ use Monad\Option;
  */
 class Netmask extends AbstractValidator
 {
-
-    const ERR_MSG1 = 'Value is not a valid ip in an allowed range';
-    const ERR_MSG2 = 'Netmask is not a valid CIDR netmask';
+    public const ERR_MSG1 = 'Value is not a valid ip in an allowed range';
+    public const ERR_MSG2 = 'Netmask is not a valid CIDR netmask';
 
     /**
      * CIDR format netmasks
      *
      * @var array
      */
-    protected $netmasks = array();
+    protected $netmasks = [];
 
     /**
      * Constructor
@@ -41,7 +42,7 @@ class Netmask extends AbstractValidator
      */
     public function __construct($netmask)
     {
-        $this->netmasks = is_array($netmask) ? $netmask : array($netmask);
+        $this->netmasks = is_array($netmask) ? $netmask : [$netmask];
     }
 
     /**
@@ -74,7 +75,7 @@ class Netmask extends AbstractValidator
                     ->Monad_Option_Some(true)
                     ->Monad_Option_None(
                         function () {
-                            $this->messenger->add(new StringType(self::ERR_MSG1));
+                            $this->messenger->add(self::ERR_MSG1);
                             return false;
                         }
                     )
@@ -86,13 +87,13 @@ class Netmask extends AbstractValidator
                     return Match::on(Option::create(strpos($e->value()->getMessage(), 'cidr'), false))
                     ->Monad_Option_Some(
                         function () {
-                            $this->messenger->add(new StringType(self::ERR_MSG2));
+                            $this->messenger->add(self::ERR_MSG2);
                             return false;
                         }
                     )
                     ->Monad_Option_None(
                         function () {
-                            $this->messenger->add(new StringType(self::ERR_MSG1));
+                            $this->messenger->add(self::ERR_MSG1);
                             return false;
                         }
                     )

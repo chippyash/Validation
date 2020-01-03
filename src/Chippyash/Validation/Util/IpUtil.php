@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Chippyash/validation
  *
@@ -13,14 +16,13 @@
 namespace Chippyash\Validation\Util;
 
 use Chippyash\Validation\Exceptions\InvalidParameterException;
-use Zend\Validator\Ip as ZendIp;
+use Laminas\Validator\Ip as ZendIp;
 
 /**
  * IP utilities
  */
 class IpUtil
 {
-
     /**
      * Return user's ip address
      * NB - HTTP_X_FORWARDED_FOR can be spoofed - you have been warned
@@ -31,7 +33,7 @@ class IpUtil
     {
         if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && !empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
             return $_SERVER['HTTP_X_FORWARDED_FOR'];
-        } elseif (isset ($_SERVER['REMOTE_ADDR'])) {
+        } elseif (isset($_SERVER['REMOTE_ADDR'])) {
             return $_SERVER['REMOTE_ADDR'];
         }
 
@@ -50,7 +52,7 @@ class IpUtil
      * @link   http://www.oav.net/mirrors/cidr.html
      * @throws InvalidParameterException
      */
-    public static function cidrMatch($ipAddr, $cidr)
+    public static function cidrMatch(string $ipAddr, string $cidr)
     {
         if (!self::isValidIP($ipAddr)) {
             throw new InvalidParameterException('ip');
@@ -76,7 +78,7 @@ class IpUtil
      */
     public static function isValidIP($ipAddr, $allowipv6 = false)
     {
-        $validator = new ZendIp(array('allowipv6' => $allowipv6));
+        $validator = new ZendIp(['allowipv6' => $allowipv6]);
         return $validator->isValid($ipAddr);
     }
 
@@ -115,7 +117,7 @@ class IpUtil
      */
     protected static function cidrMatch32bit($ipAddr, $cidr)
     {
-        list ($subNet, $bits) = explode('/', $cidr);
+        [$subNet, $bits] = explode('/', $cidr);
         $ipLong = \ip2long($ipAddr);
         $subnetLong = \ip2long($subNet);
         $mask = -1 << (32 - $bits);
@@ -134,7 +136,7 @@ class IpUtil
      */
     protected static function cidrMatch64bit($ipAddr, $cidr)
     {
-        list ($sn, $bits) = explode('/', $cidr);
+        [$sn, $bits] = explode('/', $cidr);
         $ipLong = self::ip2long64($ipAddr, $bits);
         $subnet = self::ip2long64($sn, $bits);
         $mask = -1 << (32 - $bits);
@@ -151,6 +153,6 @@ class IpUtil
      */
     protected static function ip2long64($ipAddr, $bits)
     {
-        return (-1 << (32 - $bits)) & \ip2long($ipAddr);
+        return -1 << (32 - $bits) & \ip2long($ipAddr);
     }
 }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Chippyash/validation
  *
@@ -12,8 +15,6 @@
  */
 namespace Chippyash\Validation\Common;
 
-use Chippyash\Type\String\StringType;
-
 /**
  * Validate input is an array with the specified key
  */
@@ -22,8 +23,8 @@ class ArrayKeyExists extends AbstractValidator
     /**@+
      * Error messages
      */
-    const ERR1 = 'value is not an array';
-    const ERR2 = 'key %s does not exist in array';
+    public const ERR1 = 'value is not an array';
+    public const ERR2 = 'key %s does not exist in array';
     /**@-*/
 
     /**
@@ -46,11 +47,11 @@ class ArrayKeyExists extends AbstractValidator
     protected function validate($value)
     {
         if (!is_array($value)) {
-            $this->messenger->add(new StringType(self::ERR1));
+            $this->messenger->add(self::ERR1);
             return false;
         }
         if (!array_key_exists($this->keyName, $value)) {
-            $this->messenger->add(new StringType(sprintf(self::ERR2, $this->keyName)));
+            $this->messenger->add(sprintf(self::ERR2, $this->keyName));
             return false;
         }
 

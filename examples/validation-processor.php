@@ -19,8 +19,6 @@ use Chippyash\Validation\Common\Lambda;
 use Chippyash\Validation\Messenger;
 use Chippyash\Validation\ValidationProcessor;
 use Monad\Match;
-use Monad\Option;
-use Chippyash\Type\Number\IntType;
 
 $requiredValidator = new HasTypeMap([
     'a' => new ISO8601DateString(),
@@ -31,7 +29,7 @@ $requiredValidator = new HasTypeMap([
             'e' => new UKPostCode()
         ]),
         null,
-        new IntType(4)
+        4
     ),
     'f' => new Repeater(new Email())
 ]);

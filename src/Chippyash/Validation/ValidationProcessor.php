@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Chippyash/validation
  *
@@ -32,7 +35,7 @@ class ValidationProcessor
      * @param  \callable $func
      * @throws ValidationException
      */
-    public function __construct($func)
+    public function __construct(callable $func)
     {
         $this->messenger = new Messenger();
         $this->add($func);
@@ -44,14 +47,8 @@ class ValidationProcessor
      * @return $this Fluent Interface
      * @throws ValidationException
      */
-    public function add($func)
+    public function add(callable $func)
     {
-        ValidationException::assert(
-            function () use ($func) {
-                return !is_callable($func);
-            },
-            'function is not callable'
-        );
         $this->func[] = $func;
         return $this;
     }

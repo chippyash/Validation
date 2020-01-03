@@ -5,10 +5,9 @@
 namespace Chippyash\Test\Validation\Common;
 
 use Chippyash\Validation\Messenger;
-use Chippyash\Type\Number\IntType;
 use Chippyash\Validation\Common\ISO8601\Constants as C;
 use Chippyash\Validation\Common\ISO8601DateString;
-
+use PHPUnit\Framework\TestCase;
 /**
  * Component test for ISO8601DateString which comprises:
  *  - Chippyash\Validation\CommonISO8601DateString
@@ -16,7 +15,7 @@ use Chippyash\Validation\Common\ISO8601DateString;
  *  - Chippyash\Validation\Common\ISO8601\MatchDate
  *  - Chippyash\Validation\Common\ISO8601\SplitDate
  */
-class ISO8601DateStringTest extends \PHPUnit_Framework_TestCase
+class ISO8601DateStringTest extends TestCase
 {
 
     public function testConstructingWithANullFormatWillDefaultToExtendedFormat()
@@ -30,66 +29,56 @@ class ISO8601DateStringTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructingWithANoneFormatWillDefaultToExtendedFormat()
     {
-        $sut = new ISO8601DateString(new IntType(C::FORMAT_NONE));
+        $sut = new ISO8601DateString(C::FORMAT_NONE);
         $refl = new \ReflectionObject($sut);
         $param = $refl->getProperty('format');
         $param->setAccessible(true);
         $this->assertEquals(C::FORMAT_EXTENDED, $param->getValue($sut));
     }
 
-    /**
-     * @expectedException \Chippyash\Validation\Exceptions\ValidationException
-     * @expectedExceptionMessage Invalid or missing parameter: numSignedDigits
-     */
     public function testConstructingBasicDateSignedWithNoSecondParamWillThrowAnException()
     {
+        $this->expectException(\Chippyash\Validation\Exceptions\ValidationException::class);
+        $this->expectExceptionMessage('Invalid or missing parameter: numSignedDigits');
         $object = new ISO8601DateString(
-                new IntType(C::FORMAT_BASIC_SIGNED)
+                C::FORMAT_BASIC_SIGNED
                 );
     }
 
-    /**
-     * @expectedException \Chippyash\Validation\Exceptions\ValidationException
-     * @expectedExceptionMessage Invalid or missing parameter: numSignedDigits
-     */
     public function testConstructingExtendedDateSignedWithNoSecondParamWillThrowAnException()
     {
+        $this->expectException(\Chippyash\Validation\Exceptions\ValidationException::class);
+        $this->expectExceptionMessage('Invalid or missing parameter: numSignedDigits');
         $object = new ISO8601DateString(
-                new IntType(C::FORMAT_EXTENDED_SIGNED)
+                C::FORMAT_EXTENDED_SIGNED
                 );
     }
 
-    /**
-     * @expectedException \Chippyash\Validation\Exceptions\ValidationException
-     * @expectedExceptionMessage Invalid or missing parameter: numSignedDigits: min == 4
-     */
     public function testConstructingDateSignedWithSecondParamOutOfBoundsWillThrowAnException()
     {
+        $this->expectException(\Chippyash\Validation\Exceptions\ValidationException::class);
+        $this->expectExceptionMessage('Invalid or missing parameter: numSignedDigits: min == 4');
         $object = new ISO8601DateString(
-                new IntType(C::FORMAT_EXTENDED_SIGNED),
-                new IntType(3)
+                C::FORMAT_EXTENDED_SIGNED,
+                3
                 );
     }
 
-    /**
-     * @expectedException \Chippyash\Validation\Exceptions\ValidationException
-     * @expectedExceptionMessage Invalid or missing parameter: format: Enforcing zone without time
-     */
     public function testConstructingEnforcingZoneWithNoTimeEnforcementWillThrowAnException()
     {
+        $this->expectException(\Chippyash\Validation\Exceptions\ValidationException::class);
+        $this->expectExceptionMessage('Invalid or missing parameter: format: Enforcing zone without time');
         $object = new ISO8601DateString(
-                new IntType(C::FORMAT_BASIC | C::ENFORCE_ZONE)
+                C::FORMAT_BASIC | C::ENFORCE_ZONE
                 );
     }
 
-    /**
-     * @expectedException \Chippyash\Validation\Exceptions\ValidationException
-     * @expectedExceptionMessage Invalid or missing parameter: format: Lax zone without lax time
-     */
     public function testConstructingLaxZoneWithNoLaxTimeWillThrowAnException()
     {
+        $this->expectException(\Chippyash\Validation\Exceptions\ValidationException::class);
+        $this->expectExceptionMessage('Invalid or missing parameter: format: Lax zone without lax time');
         $object = new ISO8601DateString(
-                new IntType(C::FORMAT_BASIC | C::LAX_ZONE)
+                C::FORMAT_BASIC | C::LAX_ZONE
                 );
     }
 
@@ -98,7 +87,7 @@ class ISO8601DateStringTest extends \PHPUnit_Framework_TestCase
      */
     public function testYouCanValidateAnExtendedDate($test, $result, $msg)
     {
-        $object = new ISO8601DateString(new IntType(C::FORMAT_EXTENDED));
+        $object = new ISO8601DateString(C::FORMAT_EXTENDED);
         $messenger = new Messenger();
         $this->assertEquals($result, $object($test, $messenger));
         $this->assertEquals($msg, $messenger->implode());
@@ -114,7 +103,7 @@ class ISO8601DateStringTest extends \PHPUnit_Framework_TestCase
         $zone = \date_default_timezone_get();
         \date_default_timezone_set( 'UTC' );
 
-        $object = new ISO8601DateString(new IntType(C::FORMAT_EXTENDED));
+        $object = new ISO8601DateString(C::FORMAT_EXTENDED);
         $messenger = new Messenger();
         $this->assertEquals($result, $object($test, $messenger));
         $this->assertEquals($msg, $messenger->implode());
@@ -128,7 +117,7 @@ class ISO8601DateStringTest extends \PHPUnit_Framework_TestCase
      */
     public function testYouCanValidateAnExtendedDateWithLaxTime($test, $result, $msg)
     {
-        $object = new ISO8601DateString(new IntType(C::FORMAT_EXTENDED | C::LAX_TIME));
+        $object = new ISO8601DateString(C::FORMAT_EXTENDED | C::LAX_TIME);
         $messenger = new Messenger();
         //replace time separator with space
         $test = str_replace(array('t','T'), array(' ',' '), $test);
@@ -141,7 +130,7 @@ class ISO8601DateStringTest extends \PHPUnit_Framework_TestCase
      */
     public function testYouCanValidateABasicDate($test, $result, $msg)
     {
-        $object = new ISO8601DateString(new IntType(C::FORMAT_BASIC));
+        $object = new ISO8601DateString(C::FORMAT_BASIC);
         $messenger = new Messenger();
         $this->assertEquals($result, $object($test, $messenger));
         $this->assertEquals($msg, $messenger->implode());
@@ -157,7 +146,7 @@ class ISO8601DateStringTest extends \PHPUnit_Framework_TestCase
         $zone = \date_default_timezone_get();
         \date_default_timezone_set( 'UTC' );
 
-        $object = new ISO8601DateString(new IntType(C::FORMAT_BASIC));
+        $object = new ISO8601DateString(C::FORMAT_BASIC);
         $messenger = new Messenger();
         $this->assertEquals($result, $object($test, $messenger));
         $this->assertEquals($msg, $messenger->implode());
@@ -171,7 +160,7 @@ class ISO8601DateStringTest extends \PHPUnit_Framework_TestCase
      */
     public function testYouCanValidateABasicDateWithLaxTime($test, $result, $msg)
     {
-        $object = new ISO8601DateString(new IntType(C::FORMAT_BASIC | C::LAX_TIME));
+        $object = new ISO8601DateString(C::FORMAT_BASIC | C::LAX_TIME);
         $messenger = new Messenger();
         //replace time separator with space
         $test = str_replace(array('t','T'), array(' ',' '), $test);
@@ -190,8 +179,8 @@ class ISO8601DateStringTest extends \PHPUnit_Framework_TestCase
         //years then it is contracted between sender and receiver
         $digits = rand(4, 24);
         $object = new ISO8601DateString(
-                new IntType(C::FORMAT_BASIC_SIGNED),
-                new IntType($digits)
+                C::FORMAT_BASIC_SIGNED,
+                $digits
                 );
         $messenger = new Messenger();
         $test = $sign . str_pad('', $digits, '0') . $restOfTest;
@@ -211,8 +200,8 @@ class ISO8601DateStringTest extends \PHPUnit_Framework_TestCase
         //years then it is contracted between sender and receiver
         $digits = rand(4, 24);
         $object = new ISO8601DateString(
-                new IntType(C::FORMAT_EXTENDED_SIGNED),
-                new IntType($digits)
+                C::FORMAT_EXTENDED_SIGNED,
+                $digits
                 );
         $messenger = new Messenger();
         $test = $sign . str_pad('', $digits, '0') . $restOfTest;
@@ -227,14 +216,14 @@ class ISO8601DateStringTest extends \PHPUnit_Framework_TestCase
         //basic - enforce time
         $format = C::FORMAT_BASIC | C::ENFORCE_TIME;
         $object = new ISO8601DateString(
-                new IntType($format)
+                $format
                 );
         $this->assertTrue($object('1999T030415', $messenger));
         $this->assertFalse($object('1999T', $messenger)); //no time
         //extended - enforce time
         $format = C::FORMAT_EXTENDED | C::ENFORCE_TIME;
         $object = new ISO8601DateString(
-                new IntType($format)
+                $format
                 );
         $this->assertTrue($object('1999T03:04:15', $messenger));
         $this->assertFalse($object('1999T', $messenger)); //no time
@@ -242,7 +231,7 @@ class ISO8601DateStringTest extends \PHPUnit_Framework_TestCase
         //basic - enforce time and zone
         $format = C::FORMAT_BASIC | C::ENFORCE_TIME | C::ENFORCE_ZONE;
         $object = new ISO8601DateString(
-                new IntType($format)
+                $format
                 );
         $this->assertTrue($object('1999T030415Z', $messenger));
         $this->assertTrue($object('1999T030415-0001', $messenger));
@@ -253,7 +242,7 @@ class ISO8601DateStringTest extends \PHPUnit_Framework_TestCase
         //extended - enforce time and zone
         $format = C::FORMAT_EXTENDED | C::ENFORCE_TIME | C::ENFORCE_ZONE;
         $object = new ISO8601DateString(
-                new IntType($format)
+                $format
                 );
         $this->assertTrue($object('1999T03:04:15Z', $messenger));
         $this->assertTrue($object('1999T03:04:15-00:01', $messenger));
@@ -266,7 +255,7 @@ class ISO8601DateStringTest extends \PHPUnit_Framework_TestCase
      */
     public function testTheValidatorSupportsTheZendInterface($test, $result, $msg)
     {
-        $object = new ISO8601DateString(new IntType(C::FORMAT_BASIC));
+        $object = new ISO8601DateString(C::FORMAT_BASIC);
         $this->assertEquals($result, $object->isValid($test));
         $this->assertEquals($msg, implode(' : ', $object->getMessages()));
     }
@@ -276,7 +265,7 @@ class ISO8601DateStringTest extends \PHPUnit_Framework_TestCase
      */
     public function testYouCanValidatePHPCompatibilityOnABasicDate($test, $result)
     {
-        $object = new ISO8601DateString(new IntType(C::FORMAT_BASIC | C::CHECK_PHP_PARSEABLE));
+        $object = new ISO8601DateString(C::FORMAT_BASIC | C::CHECK_PHP_PARSEABLE);
         $this->assertEquals($result, $object->isValid($test));
         if (!$result) {
             $this->assertEquals(
@@ -291,7 +280,7 @@ class ISO8601DateStringTest extends \PHPUnit_Framework_TestCase
      */
     public function testYouCanValidatePHPCompatibilityOnAnExtendedDate($test, $result)
     {
-        $object = new ISO8601DateString(new IntType(C::FORMAT_EXTENDED | C::CHECK_PHP_PARSEABLE));
+        $object = new ISO8601DateString(C::FORMAT_EXTENDED | C::CHECK_PHP_PARSEABLE);
         $this->assertEquals($result, $object->isValid($test));
         if (!$result) {
             $this->assertEquals(

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Chippyash/validation
  *
@@ -15,7 +18,7 @@
 namespace Chippyash\Validation\Pattern;
 
 use Chippyash\Validation\Messenger;
-use Zend\Validator\ValidatorInterface;
+use Laminas\Validator\ValidatorInterface;
 
 /**
  * Interface for a validation pattern

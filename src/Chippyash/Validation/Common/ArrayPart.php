@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Chippyash/validation
  *
@@ -12,8 +15,6 @@
  */
 namespace Chippyash\Validation\Common;
 
-use Chippyash\Type\String\StringType;
-
 /**
  * Validate a specific key in an array with another validator
  */
@@ -22,9 +23,9 @@ class ArrayPart extends AbstractValidator
     /**@+
      * Error messages
      */
-    const ERR1 = 'value is not an array';
-    const ERR2 = 'key %s does not exist in array';
-    const ERR3 = 'key %s does not pass validation';
+    public const ERR1 = 'value is not an array';
+    public const ERR2 = 'key %s does not exist in array';
+    public const ERR3 = 'key %s does not pass validation';
     /**@-*/
 
     /**
@@ -53,19 +54,19 @@ class ArrayPart extends AbstractValidator
     protected function validate($value)
     {
         if (!is_array($value)) {
-            $this->messenger->add(new StringType(self::ERR1));
+            $this->messenger->add(self::ERR1);
             return false;
         }
         if (!array_key_exists($this->keyName, $value)) {
-            $this->messenger->add(new StringType(sprintf(self::ERR2, $this->keyName)));
+            $this->messenger->add(sprintf(self::ERR2, $this->keyName));
             return false;
         }
 
         if (!$this->keyValidator->isValid($value[$this->keyName])) {
-            $this->messenger->add(new StringType(sprintf(self::ERR3, $this->keyName)));
+            $this->messenger->add(sprintf(self::ERR3, $this->keyName));
             $msgs = $this->keyValidator->getMessages();
-            array_walk($msgs, function($msg) {
-                $this->messenger->add(new StringType($msg));
+            array_walk($msgs, function ($msg): void {
+                $this->messenger->add($msg);
             });
             return false;
         }

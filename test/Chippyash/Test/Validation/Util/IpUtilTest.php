@@ -2,8 +2,9 @@
 namespace Chippyash\Test\Validation\Util;
 
 use Chippyash\Validation\Util\IpUtil;
+use PHPUnit\Framework\TestCase;
 
-class IpUtilTest extends \PHPUnit_Framework_TestCase
+class IpUtilTest extends TestCase
 {
     public function testYouCanGetTheClientUserIpForHttpRequestIfAvailable()
     {
@@ -48,19 +49,15 @@ class IpUtilTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($result, IpUtil::cidrMatch($ip, $cidr));
     }
 
-    /**
-     * @expectedException \Chippyash\Validation\Exceptions\InvalidParameterException
-     */
     public function testCidrMatchWillThrowExceptionForInvalidIp()
     {
+        $this->expectException(\Chippyash\Validation\Exceptions\ValidationException::class);
         IpUtil::cidrMatch('foo', '255.255.255.255/32');
     }
 
-    /**
-     * @expectedException \Chippyash\Validation\Exceptions\InvalidParameterException
-     */
     public function testCidrMatchWillThrowExceptionForInvalidCidr()
     {
+        $this->expectException(\Chippyash\Validation\Exceptions\ValidationException::class);
         IpUtil::cidrMatch('192.168.10.1', 'foo');
     }
 

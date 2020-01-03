@@ -11,17 +11,17 @@
     }
   ],
   "require": {
-    "php": ">=5.6",
-    "chippyash/strong-type": ">=5,<6",
+    "php": ">=7.2",
     "chippyash/monad": ">=2,<3",
-    "zendframework/zend-validator": ">=2,<3",
-    "zendframework/zend-filter": ">=2,<3"
+    "laminas/laminas-validator": ">=2,<3",
+    "laminas/laminas-filter": ">=2,<3"
   },
   "require-dev": {
     "ext-intl":"*",
-    "phpunit/phpunit": ">=4.8,<5",
-    "mikey179/vfsStream": ">=1.6,<2",
-    "zendframework/zend-i18n": "2.5.1|>=2.6.0"
+    "phpunit/phpunit": "~8.5",
+    "mikey179/vfsstream": ">=1.6,<2",
+    "laminas/laminas-i18n": "2.5.1|>=2.6.0",
+    "symplify/easy-coding-standard": "^6.1"
   },
   "autoload": {
     "psr-0": {
@@ -30,7 +30,17 @@
     }
   },
   "suggest": {
-    "zendframework/zend-i18n":"To use UK Post code and telephone number validation",
-    "ext-intl": "Required for most features of Zend\\I18n; included in default builds of PHP"
+    "laminas/laminas-i18n":"To use UK Post code and telephone number validation",
+    "ext-intl": "Required for most features of Laminas\\I18n; included in default builds of PHP"
+  },
+  "scripts": {
+    "lint": "vendor/bin/ecs check src",
+    "lint-fix": "vendor/bin/ecs check --fix src",
+    "test": "php vendor/bin/codecept run unit --coverage"
+  },
+  "scripts-descriptions": {
+    "lint": "Run code linter and look for problems (suggestion: set up your IDE to do this)",
+    "lint-fix": "Run linter and fix (automatically) any issues if possible",
+    "test": "Run PHP unit tests and display coverage (suggestion: set up your IDE to do this)"
   }
 }

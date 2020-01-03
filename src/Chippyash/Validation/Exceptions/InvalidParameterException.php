@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Chippyash/validation
  *
@@ -16,10 +19,9 @@ namespace Chippyash\Validation\Exceptions;
  */
 class InvalidParameterException extends ValidationException
 {
-
     protected $msg = 'Invalid or missing parameter: %s';
 
-    public function __construct($paramName, $code = null, $previous = null)
+    public function __construct(string $paramName, $code = null, $previous = null)
     {
         parent::__construct(sprintf($this->msg, $paramName), $code, $previous);
     }

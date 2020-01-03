@@ -3,50 +3,49 @@
 namespace Chippyash\Test\Validation;
 
 use Chippyash\Validation\Messenger;
-use Chippyash\Type\String\StringType;
+use PHPUnit\Framework\TestCase;
 
-class MessengerTest extends \PHPUnit_Framework_TestCase {
+class MessengerTest extends TestCase {
 
     /**
      * @var Messenger
      */
     protected $sut;
 
-    protected function setUp() {
+    protected function setUp(): void {
         $this->sut = new Messenger();
     }
 
-    public function testYouCanAddStringTypeMessages() {
-        $this->sut->add(new StringType('foo'));
+    public function testYouCanAddStringMessages() {
+        $this->sut->add('foo');
         $this->assertEquals('foo', (string) $this->sut);
-        $this->sut->add(new StringType('foo'));
+        $this->sut->add('foo');
         $this->assertEquals('foo : foo', (string) $this->sut);
     }
 
-    public function testCallingGetWillReturnAnArrayOfStringTypeMessages() {
-        $this->sut->add(new StringType('foo'));
+    public function testCallingGetWillReturnAnArrayOfStringMessages() {
+        $this->sut->add('foo');
         $ret = $this->sut->get();
-        $this->assertInternalType('array', $ret);
+        $this->assertIsArray($ret);
         $this->assertEquals(1, count($ret));
-        $this->assertInstanceOf('\Chippyash\Type\String\StringType', $ret[0]);
     }
 
     public function testCallingImplodeWillReturnAString() {
-        $this->assertEquals('foo|foo', $this->sut->add(new StringType('foo'))
-                                                    ->add(new StringType('foo'))
+        $this->assertEquals('foo|foo', $this->sut->add('foo')
+                                                    ->add('foo')
                                                     ->implode('|'));
     }
 
     public function testYouCanClearTheMessages() {
-        $this->sut->add(new StringType('foo'));
+        $this->sut->add('foo');
         $this->assertEquals('foo', (string) $this->sut);
         $this->assertEquals('', (string) $this->sut->clear());
     }
 
     public function testYouCanTestIfTheMessengerHasAMessage()
     {
-        $this->sut->add(new StringType('foo'));
-        $this->assertTrue($this->sut->has(new StringType('foo')));
-        $this->assertFalse($this->sut->has(new StringType('bar')));
+        $this->sut->add('foo');
+        $this->assertTrue($this->sut->has('foo'));
+        $this->assertFalse($this->sut->has('bar'));
     }
 }

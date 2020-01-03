@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Chippyash/validation
  *
@@ -14,7 +17,6 @@
 
 namespace Chippyash\Validation\Common;
 
-use Chippyash\Type\String\StringType;
 use Monad\Match;
 use Monad\Option;
 
@@ -25,9 +27,8 @@ use Monad\Option;
  */
 class IsArray extends AbstractValidator
 {
-
-    const ERR_INVALID = 'value is not an array';
-    const ERR_ARRAY_EMPTY = 'array is empty';
+    public const ERR_INVALID = 'value is not an array';
+    public const ERR_ARRAY_EMPTY = 'array is empty';
 
     protected $checkForEmpty = false;
 
@@ -55,7 +56,7 @@ class IsArray extends AbstractValidator
                     return Match::on(Option::create($this->checkForEmpty && empty($value), false))
                     ->Monad_Option_Some(
                         function () {
-                            $this->messenger->add(new StringType(self::ERR_ARRAY_EMPTY));
+                            $this->messenger->add(self::ERR_ARRAY_EMPTY);
                             return false;
                         }
                     )
@@ -65,7 +66,7 @@ class IsArray extends AbstractValidator
             )
             ->Monad_Option_None(
                 function () {
-                    $this->messenger->add(new StringType(self::ERR_INVALID));
+                    $this->messenger->add(self::ERR_INVALID);
                     return false;
                 }
             )

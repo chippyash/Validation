@@ -10,50 +10,41 @@
 namespace Chippyash\Test\Validation\Exceptions;
 
 use Chippyash\Validation\Exceptions\ValidationException;
+use PHPUnit\Framework\TestCase;
 
-class ValidationExceptionTest extends \PHPUnit_Framework_TestCase
+class ValidationExceptionTest extends TestCase
 {
-    /**
-     * @expectedException \Chippyash\Validation\Exceptions\ValidationException
-     */
     public function testYouCanThrowAValidationException()
     {
+        $this->expectException(\Chippyash\Validation\Exceptions\ValidationException::class);
         throw new ValidationException();
     }
 
-    /**
-     * @expectedException \Chippyash\Validation\Exceptions\ValidationException
-     * @expectedExceptionMessage Exception occurred somewhere within Chippyash Validation library
-     */
     public function testValidationExceptionHasADefaultMessage()
     {
+        $this->expectException(\Chippyash\Validation\Exceptions\ValidationException::class);
+        $this->expectExceptionMessage('Exception occurred somewhere within Chippyash Validation library');
         throw new ValidationException();
     }
 
-    /**
-     * @expectedException \Chippyash\Validation\Exceptions\ValidationException
-     * @expectedExceptionMessage Foo Bar
-     */
     public function testYouCanOverideTheDefaultMessage()
     {
+        $this->expectException(\Chippyash\Validation\Exceptions\ValidationException::class);
+        $this->expectExceptionMessage('Foo Bar');
         throw new ValidationException('Foo Bar');
     }
 
-    /**
-     * @expectedException \Chippyash\Validation\Exceptions\ValidationException
-     * @expectedExceptionMessage Test Assertion Failed
-     */
     public function testYouCanAssertAValidationException()
     {
+        $this->expectException(\Chippyash\Validation\Exceptions\ValidationException::class);
+        $this->expectExceptionMessage('est Assertion Failed');
         ValidationException::assert(function(){return true;}, 'Test Assertion Failed');
     }
 
-    /**
-     * @expectedException \Chippyash\Validation\Exceptions\ValidationException
-     * @expectedExceptionMessage Test for assert is not callable
-     */
     public function testTryingToAssertAValidationExceptionWithANonCallableFunctionWillThrowAValidationException()
     {
+        $this->expectException(\Chippyash\Validation\Exceptions\ValidationException::class);
+        $this->expectExceptionMessage('Test for assert is not callable');
         ValidationException::assert('foo', 'Test Assertion Failed');
     }
 }

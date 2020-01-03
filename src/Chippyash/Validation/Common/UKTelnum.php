@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Chippyash/validation
  *
@@ -14,11 +17,11 @@
 
 namespace Chippyash\Validation\Common;
 
-if (!class_exists('Zend\I18n\Validator\PhoneNumber')) {
+if (!class_exists('Laminas\I18n\Validator\PhoneNumber')) {
     throw new \Exception('Please install zendframework/zend-i18n to use UKTelNum');
 }
 
-use Zend\I18n\Validator\PhoneNumber;
+use Laminas\I18n\Validator\PhoneNumber;
 
 /**
  * Validator for UK mobile and landline telephone numbers
@@ -31,17 +34,17 @@ class UKTelnum extends ZFValidator
     {
         parent::__construct(
             new PhoneNumber(
-                array(
+                [
                     'country' => 'GB',
-                    'allowed_types' => array('general', 'fixed', 'personal', 'mobile')
-                )
+                    'allowed_types' => ['general', 'fixed', 'personal', 'mobile']
+                ]
             )
         );
     }
 
     /**
      * Strip leading zeros, plus signs and spaces from telnum string
-     * as Zend validator wants the stripped down string
+     * as Laminas validator wants the stripped down string
      *
      * @param  mixed $value
      * @return boolean

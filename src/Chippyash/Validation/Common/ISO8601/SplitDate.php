@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Chippyash/validation
  *
@@ -53,8 +56,8 @@ class SplitDate
 
     public function __construct($laxTime, $laxZone, $format)
     {
-        $this->laxTime = (boolean)$laxTime;
-        $this->laxZone = (boolean)$laxZone;
+        $this->laxTime = (bool)$laxTime;
+        $this->laxZone = (bool)$laxZone;
         $this->format = $format;
     }
 
@@ -82,26 +85,26 @@ class SplitDate
             ->value();
         //guard
         if (count($parts) == 0 || count($parts) > 2 || (count($parts) == 1 && empty($parts[0]))) {
-            return array(null, null, null, $this->timepartFound, $this->zonepartFound);
+            return [null, null, null, $this->timepartFound, $this->zonepartFound];
         }
         if (count($parts) == 1) {
             //we have a date only
-            return array($parts[0], null, null, $this->timepartFound, $this->zonepartFound);
+            return [$parts[0], null, null, $this->timepartFound, $this->zonepartFound];
         }
         if (count($parts) == 2) {
             $this->timepartFound = true;
             //we have a date and something else
-            list($time, $zone) = $this->splitTime($parts[1]);
+            [$time, $zone] = $this->splitTime($parts[1]);
             if (!is_null($zone)) {
-                return array($parts[0], $time, $zone, $this->timepartFound, $this->zonepartFound);
+                return [$parts[0], $time, $zone, $this->timepartFound, $this->zonepartFound];
             } elseif (!is_null($time)) {
-                return array($parts[0], $time, null, $this->timepartFound, $this->zonepartFound);
+                return [$parts[0], $time, null, $this->timepartFound, $this->zonepartFound];
             }
 
-            return array($parts[0], null, null, $this->timepartFound, $this->zonepartFound);
+            return [$parts[0], null, null, $this->timepartFound, $this->zonepartFound];
         }
 
-        return array($parts[0], null, null, $this->timepartFound, $this->zonepartFound);
+        return [$parts[0], null, null, $this->timepartFound, $this->zonepartFound];
     }
 
     /**
@@ -114,7 +117,7 @@ class SplitDate
     {
         //guard
         if (empty($value)) {
-            return array(null, null);
+            return [null, null];
         }
 
         //try to find zone, z == UTC
@@ -129,28 +132,28 @@ class SplitDate
         }
         //guard
         if (count($partsZ) == 0 && count($partsM) == 0 && count($partsP) == 0) {
-            return array(null, null);
+            return [null, null];
         }
         //UTC timezone stated
         if (count($partsZ) == 2 && empty($partsZ[1])) {
             $this->zonepartFound = true;
-            return array($partsZ[0], $this->getUTCTimezone());
+            return [$partsZ[0], $this->getUTCTimezone()];
         }
 
         //minus timezone stated
         if (count($partsM) == 2) {
             $this->zonepartFound = true;
-            return array($partsM[0], "-{$partsM[1]}");
+            return [$partsM[0], "-{$partsM[1]}"];
         }
 
         //plus timezone stated
         if (count($partsP) == 2) {
             $this->zonepartFound = true;
-            return array($partsP[0], "+{$partsP[1]}");
+            return [$partsP[0], "+{$partsP[1]}"];
         }
 
         //no zone found
-        return array((empty($value) ? null : $value), null);
+        return [(empty($value) ? null : $value), null];
     }
 
     /**
@@ -168,11 +171,9 @@ class SplitDate
         $offset = $timezone->getOffset(new \DateTime()); // Offset in seconds to UTC
         $offsetHours = round(abs($offset) / 3600);
         $offsetMinutes = round((abs($offset) - $offsetHours * 3600) / 60);
-        $offsetString = ($offset < 0 ? '-' : '+')
+        return ($offset < 0 ? '-' : '+')
             . ($offsetHours < 10 ? '0' : '') . $offsetHours
             . ($this->format == C::FORMAT_EXTENDED || $this->format == C::FORMAT_EXTENDED_SIGNED ? ':' : '')
             . ($offsetMinutes < 10 ? '0' : '') . $offsetMinutes;
-
-        return $offsetString;
     }
 }

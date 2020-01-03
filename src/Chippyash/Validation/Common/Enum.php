@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Chippyash/validation
  *
@@ -14,7 +17,6 @@
 
 namespace Chippyash\Validation\Common;
 
-use Chippyash\Type\String\StringType;
 use Monad\Match;
 use Monad\Option;
 
@@ -23,13 +25,13 @@ use Monad\Option;
  */
 class Enum extends AbstractValidator
 {
-    const ERR_MSG = 'Value is not a valid enumeration';
+    public const ERR_MSG = 'Value is not a valid enumeration';
 
     /**
      * Enumeration values
      * @var array
      */
-    protected $enum = array();
+    protected $enum = [];
 
     /**
      * Constructor
@@ -53,7 +55,7 @@ class Enum extends AbstractValidator
             ->Monad_Option_Some(true)
             ->Monad_Option_None(
                 function () {
-                    $this->messenger->add(new StringType(self::ERR_MSG));
+                    $this->messenger->add(self::ERR_MSG);
                     return false;
                 }
             )

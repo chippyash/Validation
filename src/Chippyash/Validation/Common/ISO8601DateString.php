@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Chippyash/validation
  *
@@ -14,8 +17,6 @@
 
 namespace Chippyash\Validation\Common;
 
-use Chippyash\Type\Number\IntType;
-use Chippyash\Type\String\StringType;
 use Chippyash\Validation\Common\ISO8601\Constants as C;
 use Chippyash\Validation\Common\ISO8601\MatchDate;
 use Chippyash\Validation\Common\ISO8601\SplitDate;
@@ -90,108 +91,109 @@ class ISO8601DateString extends AbstractValidator
      *
      * @var array
      */
-    protected $formatRegex = array(
-        C::FORMAT_BASIC => array(
-            MatchDate::STRDATE => array(
+    protected $formatRegex = [
+        C::FORMAT_BASIC => [
+            MatchDate::STRDATE => [
                 C::FMT_KEY_BYO => '/^\d{4}$/',
                 C::FMT_KEY_BYMD => '/^\d{4}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])$/',
                 C::FMT_KEY_BW => '/^\d{4}w(0[1-9]|[1-4]\d|5[0-3])$/',
                 C::FMT_KEY_BWPD => '/^\d{4}w(0[1-9]|[1-4]\d|5[0-3])[1-7]$/',
                 C::FMT_KEY_BO => '/^\d{4}(00[1-9]|[12]\d{2}|3[0-5]\d|36[0-6])$/'
-            ),
-            MatchDate::STRTIME => array(
+            ],
+            MatchDate::STRTIME => [
                 C::FMT_KEY_BTHMS => '/^([01]\d|2[0-4])([0-5]\d)([0-5]\d)$/',
                 C::FMT_KEY_BTHM => '/^([01]\d|2[0-4])([0-5]\d)$/',
                 C::FMT_KEY_BTH => '/^([01]\d|2[0-4])$/',
                 C::FMT_KEY_BDTHMS => '/^([01]\d|2[0-4])([0-5]\d)([0-5]\d)[\.,]\d{1,}$/',
                 C::FMT_KEY_BDTHM => '/^([01]\d|2[0-4])([0-5]\d)[\.,]\d{1,}$/',
                 C::FMT_KEY_BDTH => '/^([01]\d|2[0-4])[\.,]\d{1,}$/',
-            ),
-            MatchDate::STRZONE => array(
+            ],
+            MatchDate::STRZONE => [
                 C::FMT_KEY_BZPH => '/^\+([01]\d|2[0-4])$/',
                 C::FMT_KEY_BZNH => '/^\-(0[1-9]|1\d|2[0-4])$/',
                 C::FMT_KEY_BZPHM => '/^\+([01]\d|2[0-4])([0-4]\d|5[1-9])$/',
                 C::FMT_KEY_BZNHM => '/^\-([01]\d|2[0-4])(0[1-9]|[1-4]\d|5[1-9])$/',
                 C::FMT_KEY_BZUTC => '/^UTC$/' //workaround for Z UTC designation
-            )
-        ),
-        C::FORMAT_BASIC_SIGNED => array(
+            ]
+        ],
+        C::FORMAT_BASIC_SIGNED => [
             //NB ## is replaced with real number of digits required for signed year
             //due to limitation of basic format, only an extended year is supported
-            MatchDate::STRDATE => array(
+            MatchDate::STRDATE => [
                 C::FMT_KEY_SBYO => '/^[\+\-]\d{##}$/',
-            ),
+            ],
             //time and zone are filled with basic regex patterns
             MatchDate::STRTIME => null,
             MatchDate::STRZONE => null
-        ),
-        C::FORMAT_EXTENDED => array(
-            MatchDate::STRDATE => array(
+        ],
+        C::FORMAT_EXTENDED => [
+            MatchDate::STRDATE => [
                 C::FMT_KEY_EYO => '/^\d{4}$/',
                 C::FMT_KEY_EYM => '/^\d{4}\-(0[1-9]|1[0-2])$/',
                 C::FMT_KEY_EYMD => '/^\d{4}\-(0[1-9]|1[0-2])\-(0[1-9]|[12]\d|3[01])$/',
                 C::FMT_KEY_EW => '/^\d{4}\-w(0[1-9]|[1-4]\d|5[0-3])$/',
                 C::FMT_KEY_EWPD => '/^\d{4}\-w(0[1-9]|[1-4]\d|5[0-3])[1-7]$/',
                 C::FMT_KEY_EO => '/^\d{4}\-(00[1-9]|[12]\d{2}|3[0-5]\d|36[0-6])$/'
-            ),
-            MatchDate::STRTIME => array(
+            ],
+            MatchDate::STRTIME => [
                 C::FMT_KEY_ETHMS => '/^([01]\d|2[0-4]):([0-5]\d):([0-5]\d)$/',
                 C::FMT_KEY_ETHM => '/^([01]\d|2[0-4]):([0-5]\d)$/',
                 C::FMT_KEY_EDTHMS => '/^([01]\d|2[0-4]):([0-5]\d):([0-5]\d)[\.,]\d{1,}$/',
                 C::FMT_KEY_EDTHM => '/^([01]\d|2[0-4]):([0-5]\d)[\.,]\d{1,}$/',
-            ),
-            MatchDate::STRZONE => array(
+            ],
+            MatchDate::STRZONE => [
                 C::FMT_KEY_EZPH => '/^\+([01]\d|2[0-4])$/',
                 C::FMT_KEY_EZNH => '/^\-(0[1-9]|1\d|2[0-4])$/',
                 C::FMT_KEY_EZPHM => '/^\+([01]\d|2[0-4]):([0-4]\d|5[1-9])$/',
                 C::FMT_KEY_EZNHM => '/^\-([01]\d|2[0-4]):(0[1-9]|[1-4]\d|5[1-9])$/',
                 C::FMT_KEY_EZUTC => '/^UTC$/' //workaround for Z UTC designation
-            )
-        ),
-        C::FORMAT_EXTENDED_SIGNED => array(
+            ]
+        ],
+        C::FORMAT_EXTENDED_SIGNED => [
             //NB ## is replaced with real number of digits required for signed year
-            MatchDate::STRDATE => array(
+            MatchDate::STRDATE => [
                 C::FMT_KEY_SEYO => '/^[\+\-]\d{##}$/',
                 C::FMT_KEY_SEYM => '/^[\+\-]\d{##}\-(0[1-9]|1[0-2])$/',
                 C::FMT_KEY_SEYMD => '/^[\+\-]\d{##}\-(0[1-9]|1[0-2])\-(0[1-9]|[12]\d|3[01])$/',
 
-            ),
+            ],
             //time and zone are filled with extended regex patterns
             MatchDate::STRTIME => null,
             MatchDate::STRZONE => null
-        ),
-    );
+        ],
+    ];
 
     /**
      * Constructor
      *
      * You can provide a format.  Default is FORMAT_EXTENDED
      * You can OR a format with the ENFORCE_.. bits e.g.
-     * new IntType(FORMAT_EXTENDED | ENFORCE_TIME | ENFORCE_ZONE)
+     * FORMAT_EXTENDED | ENFORCE_TIME | ENFORCE_ZONE
      *
      * You can also set laxness for the time and zone separators
      * a lax time means that instead of the T separator, a space can be used
      * ditto for lax zone (i.e. space between time part and zone part)
-     * e.g. new IntType(FORMAT_EXTENDED | ENFORCE_TIME | LAX_TIME)
+     * e.g. FORMAT_EXTENDED | ENFORCE_TIME | LAX_TIME
      *
      * To check for PHP DateTime compatibility OR the format with CHECK_PHP_PARSEABLE
-     * e.g. new IntType(FORMAT_EXTENDED | CHECK_PHP_PARSEABLE)
+     * e.g. FORMAT_EXTENDED | CHECK_PHP_PARSEABLE
      *
-     * @param \Chippyash\Type\Number\IntType $format
-     * @param \Chippyash\Type\Number\IntType $numSignedDigits required if Signed dates are to be validated
+     * @param int $format
+     * @param int $numSignedDigits required if Signed dates are to be validated
      *
      * @throws InvalidParameterException
+     * @throws \Chippyash\Validation\Exceptions\ValidationException
      */
-    public function __construct(IntType $format = null, IntType $numSignedDigits = null)
+    public function __construct(?int $format = null, ?int $numSignedDigits = null)
     {
         Match::on($format)
             ->null(
-                function () {
+                function (): void {
                     $this->format = C::FORMAT_EXTENDED;
                 }
             )
             ->any(
-                function () use ($format) {
+                function () use ($format): void {
                     $this->setFormatAndFlags($format);
                 }
             );
@@ -217,7 +219,7 @@ class ISO8601DateString extends AbstractValidator
             )
         )
         ->Monad_Option_Some(
-            function () use ($numSignedDigits) {
+            function () use ($numSignedDigits): void {
                 InvalidParameterException::assert(
                     function () use ($numSignedDigits) {
                         return is_null($numSignedDigits);
@@ -227,12 +229,12 @@ class ISO8601DateString extends AbstractValidator
 
                 InvalidParameterException::assert(
                     function () use ($numSignedDigits) {
-                        return ($numSignedDigits() < 4);
+                        return $numSignedDigits < 4;
                     },
                     C::ERR_MINSIGNEDDIGITS
                 );
 
-                $this->numSignedDigits = $numSignedDigits();
+                $this->numSignedDigits = $numSignedDigits;
                 $this->prepareSignedRegexes();
             }
         );
@@ -241,12 +243,12 @@ class ISO8601DateString extends AbstractValidator
     /**
      * Set datestring formats and other flags based on format
      *
-     * @param IntType $format
+     * @param int $format
      */
-    protected function setFormatAndFlags(IntType $format)
+    protected function setFormatAndFlags(int $format): void
     {
         $fullMask = C::MASK_FORMAT | C::MASK_ENFORCE | C::MASK_LAX | C::MASK_PHP;
-        $fmt = $format() & $fullMask;
+        $fmt = $format & $fullMask;
         $enforcement = $fmt & C::MASK_ENFORCE;
         $laxness = $fmt & C::MASK_LAX;
         $phpCompatibility = $fmt & C::MASK_PHP;
@@ -266,11 +268,11 @@ class ISO8601DateString extends AbstractValidator
     /**
      * Prepare signed regex patterns with required number of digits
      */
-    protected function prepareSignedRegexes()
+    protected function prepareSignedRegexes(): void
     {
         Match::on(Option::create($this->format == C::FORMAT_BASIC_SIGNED, false))
             ->Monad_Option_Some(
-                function () {
+                function (): void {
                     foreach ($this->formatRegex[C::FORMAT_BASIC_SIGNED][MatchDate::STRDATE] as &$regex) {
                         $regex = str_replace('##', $this->numSignedDigits, $regex);
                     }
@@ -284,7 +286,7 @@ class ISO8601DateString extends AbstractValidator
 
         Match::on(Option::create($this->format == C::FORMAT_EXTENDED_SIGNED, false))
             ->Monad_Option_Some(
-                function () {
+                function (): void {
                     foreach ($this->formatRegex[C::FORMAT_EXTENDED_SIGNED][MatchDate::STRDATE] as &$regex) {
                         $regex = str_replace('##', $this->numSignedDigits, $regex);
                     }
@@ -293,7 +295,6 @@ class ISO8601DateString extends AbstractValidator
                     $this->formatRegex[C::FORMAT_EXTENDED][MatchDate::STRTIME];
                     $this->formatRegex[C::FORMAT_EXTENDED_SIGNED][MatchDate::STRZONE] =
                     $this->formatRegex[C::FORMAT_EXTENDED][MatchDate::STRZONE];
-
                 }
             );
     }
@@ -314,15 +315,15 @@ class ISO8601DateString extends AbstractValidator
                         function () use ($value) {
                             return Match::on(
                                 FTry::with(
-                                    function () use ($value) {
+                                    function () use ($value): void {
                                         new \DateTime($value);
                                     }
                                 )
-                        )
+                            )
                         ->Monad_FTry_Success(true)
                         ->Monad_FTry_Failure(
                             function () {
-                                $this->messenger->clear()->add(new StringType(C::ERR_FAILED_PHP_CHECK));
+                                $this->messenger->clear()->add(C::ERR_FAILED_PHP_CHECK);
                                 return false;
                             }
                         )
@@ -360,7 +361,7 @@ class ISO8601DateString extends AbstractValidator
         $value = strtolower($value);
         $splitter = new SplitDate($this->laxTime, $this->laxZone, $this->format);
         //ooh - how pythonesq!
-        list($date, $time, $zone, $this->timepartFound, $this->zonepartFound) = $splitter->splitDate($value);
+        [$date, $time, $zone, $this->timepartFound, $this->zonepartFound] = $splitter->splitDate($value);
 
         if ($this->checkForNoDate($date)
             || $this->checkForEnforcement($time, $zone)
@@ -381,7 +382,7 @@ class ISO8601DateString extends AbstractValidator
         return Match::on(Option::create($date))
             ->Monad_Option_None(
                 function () {
-                    $this->messenger->add(new StringType(C::ERR_REQ_DATE));
+                    $this->messenger->add(C::ERR_REQ_DATE);
                     return true;
                 }
             )
@@ -399,7 +400,7 @@ class ISO8601DateString extends AbstractValidator
         return Match::on(Option::create($this->enforceTime && is_null($time), false))
             ->Monad_Option_Some(
                 function () {
-                    $this->messenger->add(new StringType(C::ERR_REQ_TIME));
+                    $this->messenger->add(C::ERR_REQ_TIME);
                     return true;
                 }
             )
@@ -408,7 +409,7 @@ class ISO8601DateString extends AbstractValidator
                     return Match::on(Option::create($this->enforceZone && is_null($zone), false))
                     ->Monad_Option_Some(
                         function () {
-                            $this->messenger->add(new StringType(C::ERR_REQ_ZONE));
+                            $this->messenger->add(C::ERR_REQ_ZONE);
                             return true;
                         }
                     )
@@ -429,7 +430,7 @@ class ISO8601DateString extends AbstractValidator
         return Match::on(Option::create($this->timepartFound && is_null($time), false))
             ->Monad_Option_Some(
                 function () {
-                    $this->messenger->add(new StringType(C::ERR_TIME_NOTFOUND));
+                    $this->messenger->add(C::ERR_TIME_NOTFOUND);
                     return true;
                 }
             )
@@ -438,7 +439,7 @@ class ISO8601DateString extends AbstractValidator
                     return Match::on(Option::create($this->zonepartFound && is_null($zone), false))
                     ->Monad_Option_Some(
                         function () {
-                            $this->messenger->add(new StringType(C::ERR_ZONE_NOTFOUND));
+                            $this->messenger->add(C::ERR_ZONE_NOTFOUND);
                             return true;
                         }
                     )
@@ -472,7 +473,7 @@ class ISO8601DateString extends AbstractValidator
                             ->Monad_Option_Some(true)
                             ->Monad_Option_None(
                                 function () {
-                                    $this->messenger->clear()->add(new StringType(C::ERR_INVALID));
+                                    $this->messenger->clear()->add(C::ERR_INVALID);
                                     return false;
                                 }
                             )
@@ -487,7 +488,7 @@ class ISO8601DateString extends AbstractValidator
                             ->Monad_Option_Some(true)
                             ->Monad_Option_None(
                                 function () {
-                                    $this->messenger->clear()->add(new StringType(C::ERR_INVALID));
+                                    $this->messenger->clear()->add(C::ERR_INVALID);
                                     return false;
                                 }
                             )
@@ -505,7 +506,7 @@ class ISO8601DateString extends AbstractValidator
                     ->Monad_Option_Some(true)
                     ->Monad_Option_None(
                         function () {
-                            $this->messenger->clear()->add(new StringType(C::ERR_INVALID));
+                            $this->messenger->clear()->add(C::ERR_INVALID);
                             return false;
                         }
                     )

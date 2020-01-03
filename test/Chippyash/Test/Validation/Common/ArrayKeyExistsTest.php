@@ -2,8 +2,9 @@
 namespace Chippyash\Test\Validation\Common;
 
 use Chippyash\Validation\Common\ArrayKeyExists;
+use PHPUnit\Framework\TestCase;
 
-class ArrayKeyExistsTest extends \PHPUnit_Framework_TestCase
+class ArrayKeyExistsTest extends TestCase
 {
     /**
      * System Under Test
@@ -11,7 +12,7 @@ class ArrayKeyExistsTest extends \PHPUnit_Framework_TestCase
      */
     protected $sut;
 
-    public function SetUp()
+    public function setUp(): void
     {
         $this->sut = new ArrayKeyExists('foo');
     }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Chippyash/validation
  *
@@ -14,14 +17,14 @@
 
 namespace Chippyash\Validation\Common;
 
-use Zend\Validator\EmailAddress;
+use Laminas\Validator\EmailAddress;
 
 /**
  * Validator for an email address.
  *
  * Does basic validation only.  If you want additional functionality use the
  * Chippyash\Validation\Common\ZFValidator validator, passing in your own
- * configured Zend\Validator\EmailAddress
+ * configured Laminas\Validator\EmailAddress
  */
 class Email extends ZFValidator
 {

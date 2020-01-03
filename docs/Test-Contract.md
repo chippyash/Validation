@@ -95,7 +95,7 @@
 *  You can validate using is valid method
 *  You can invoke the validator
 
-## Chippyash\Test\Validation\Common\Zend
+## Chippyash\Test\Validation\Common\Laminas
 
 *  Will return correct response for test data set via magic invoke method
 *  Will return correct response for test data set via is valid method

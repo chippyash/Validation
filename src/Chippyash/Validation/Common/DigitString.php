@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Chippyash/validation
  *
@@ -12,14 +15,13 @@
  */
 namespace Chippyash\Validation\Common;
 
-use Zend\Validator\Digits;
+use Laminas\Validator\Digits;
 
 /**
  * Validate input is a DigitString
  */
 class DigitString extends ZFValidator
 {
-
     public function __construct()
     {
         parent::__construct(new Digits());

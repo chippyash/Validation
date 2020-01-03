@@ -5,9 +5,9 @@ namespace Chippyash\Test\Test\Validation\Pattern;
 use Chippyash\Validation\Messenger;
 use Chippyash\Validation\Common\Lambda;
 use Chippyash\Validation\Pattern\Repeater;
-use Chippyash\Type\Number\IntType;
+use PHPUnit\Framework\TestCase;
 
-class RepeaterTest extends \PHPUnit_Framework_TestCase
+class RepeaterTest extends TestCase
 {
 
     /**
@@ -15,7 +15,7 @@ class RepeaterTest extends \PHPUnit_Framework_TestCase
      */
     protected $messenger;
 
-    protected function setUp() {
+    protected function setUp(): void {
         $this->messenger = new Messenger();
     }
 
@@ -25,7 +25,7 @@ class RepeaterTest extends \PHPUnit_Framework_TestCase
         $sut = new Repeater($validator);
         $this->assertFalse($sut->isValid('foo'));
         $this->assertTrue($sut->isValid(array()));
-        $this->assertTrue($sut->isValid(new \stdClass()));
+        $this->assertTrue($sut->isValid(new \ArrayObject()));
     }
 
     public function testADefaultRepeaterWillSucceedForZeroOrMoreRepetions()
@@ -40,7 +40,7 @@ class RepeaterTest extends \PHPUnit_Framework_TestCase
     public function testYouCanSetAMinimumNumberOfItemsToBeInTheTraversable()
     {
         $validator = new Lambda(function($value){return true;});
-        $sut = new Repeater($validator, new IntType(2));
+        $sut = new Repeater($validator, 2);
         $this->assertFalse($sut->isValid(array()));
         $this->assertFalse($sut->isValid(array(1)));
         $this->assertTrue($sut->isValid(array(1,2)));
@@ -49,20 +49,18 @@ class RepeaterTest extends \PHPUnit_Framework_TestCase
     public function testYouCanSetAMaximumNumberOfItemsToBeInTheTraversable()
     {
         $validator = new Lambda(function($value){return true;});
-        $sut = new Repeater($validator, null, new IntType(2));
+        $sut = new Repeater($validator, null, 2);
         $this->assertTrue($sut->isValid(array()));
         $this->assertTrue($sut->isValid(array(1)));
         $this->assertTrue($sut->isValid(array(1,2)));
         $this->assertFalse($sut->isValid(array(1,2,3)));
     }
 
-    /**
-     * @expectedException \Chippyash\Validation\Exceptions\ValidationException
-     */
     public function testMaximumMustNotBeLessThanMinimum()
     {
+        $this->expectException(\Chippyash\Validation\Exceptions\ValidationException::class);
         $validator = new Lambda(function($value){return true;});
-        $sut = new Repeater($validator, new IntType(3), new IntType(2));
+        $sut = new Repeater($validator, 3, 2);
     }
 
     public function testARepeaterWillApplyTheValidationToAllValueItemsUntilItFindsAnInvalidOne()

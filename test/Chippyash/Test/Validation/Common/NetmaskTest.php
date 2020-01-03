@@ -4,8 +4,9 @@ namespace Chippyash\Test\Validation\Common;
 
 use Chippyash\Validation\Common\Netmask;
 use Chippyash\Validation\Messenger;
+use PHPUnit\Framework\TestCase;
 
-class NetmaskTest extends \PHPUnit_Framework_TestCase
+class NetmaskTest extends TestCase
 {
     /**
      * This overide of the run method is required to run the test in isolation.
@@ -13,13 +14,13 @@ class NetmaskTest extends \PHPUnit_Framework_TestCase
      * on local vm, by itself, when run as part of suite it borks
      * if not in isolation!
      */
-    public function run(\PHPUnit_Framework_TestResult $result = NULL)
-    {
-        //mock the current incoming ip address
-        $_SERVER['REMOTE_ADDR'] = '192.168.10.167';
-        $this->setPreserveGlobalState(false);
-        return parent::run($result);
-    }
+//    public function run(\PHPUnit_Framework_TestResult $result = NULL)
+//    {
+//        //mock the current incoming ip address
+//        $_SERVER['REMOTE_ADDR'] = '192.168.10.167';
+//        $this->setPreserveGlobalState(false);
+//        return parent::run($result);
+//    }
 
 
     /**
@@ -59,7 +60,6 @@ class NetmaskTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array('127.0.0.0', array('0.0.0.0/0'), true),
-            array(null, array('0.0.0.0/0'), true),
             array('128.0.0.0', array('0.0.0.0/1'), false, Netmask::ERR_MSG1),
             array('127.0.0.0', '0.0.0.0/0', true),
             array('1.1.1.1', array('0.0.0.0/1','0.0.0.0/2'), true),

@@ -4,14 +4,15 @@ namespace Chippyash\Test\Validation\Common;
 
 use Chippyash\Validation\Common\UKPostCode;
 use Chippyash\Validation\Messenger;
+use PHPUnit\Framework\TestCase;
 
-class UKPostCodeTest extends \PHPUnit_Framework_TestCase
+class UKPostCodeTest extends TestCase
 {
     protected $sut;
 
     protected $messenger;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->sut = new UKPostCode();
         $this->messenger = new Messenger();

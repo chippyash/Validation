@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Chippyash/validation
  *
@@ -13,15 +16,13 @@
  */
 namespace Chippyash\Validation\Common;
 
-use Chippyash\Type\String\StringType;
 use Chippyash\Validation\Exceptions\ValidationException;
 use Monad\Match;
 use Monad\Option;
 
 class Lambda extends AbstractValidator
 {
-
-    const ERR_LAMBDA = 'Validation for lambda function failed';
+    public const ERR_LAMBDA = 'Validation for lambda function failed';
 
     /**
      * @var callable
@@ -29,7 +30,7 @@ class Lambda extends AbstractValidator
     protected $function;
 
     /**
-     * @var StringType
+     * @var String
      */
     protected $msg;
 
@@ -37,12 +38,12 @@ class Lambda extends AbstractValidator
      * Constructor
      *
      * @param callable   $func
-     * @param StringType $msg  Error message in event of failure
+     * @param String $msg  Error message in event of failure
      *
      * @throws ValidationException
      * @throws static
      */
-    public function __construct(callable $func, StringType $msg = null)
+    public function __construct(callable $func, ?string $msg = null)
     {
         ValidationException::assert(
             function () use ($func) {
@@ -52,7 +53,7 @@ class Lambda extends AbstractValidator
         );
 
         $this->function = $func;
-        $this->msg = (is_null($msg) ? new StringType(self::ERR_LAMBDA) : $msg);
+        $this->msg = (is_null($msg) ? self::ERR_LAMBDA : $msg);
     }
 
     /**
@@ -65,7 +66,7 @@ class Lambda extends AbstractValidator
     {
         $f = $this->function;
 
-        return Match::on(Option::create((boolean)$f($value, $this->messenger), false))
+        return Match::on(Option::create((bool)$f($value, $this->messenger), false))
             ->Monad_Option_Some(true)
             ->Monad_Option_None(
                 function () {

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Chippyash/validation
  *
@@ -11,8 +14,6 @@
  */
 namespace Chippyash\Validation;
 
-use Chippyash\Type\String\StringType;
-
 /**
  * A utility class for saving and retrieving messages
  */
@@ -21,16 +22,16 @@ class Messenger
     /**
      * Message store
      *
-     * @var array of StringType
+     * @var array of String
      */
-    protected $messages = array();
+    protected $messages = [];
 
     /**
      *
-     * @param StringType $msg
+     * @param String $msg
      * @return $this Fluent Interface
      */
-    public function add(StringType $msg)
+    public function add(string $msg)
     {
         $this->messages[] = $msg;
 
@@ -40,7 +41,7 @@ class Messenger
     /**
      * Return message array
      *
-     * @return array of StringType
+     * @return array of String
      */
     public function get()
     {
@@ -50,12 +51,12 @@ class Messenger
     /**
      * Do we have a particular message?
      *
-     * @param  StringType $msg
+     * @param  String $msg
      * @return boolean
      */
-    public function has(StringType $msg)
+    public function has(string $msg)
     {
-        return in_array($msg(), $this->messages);
+        return in_array($msg, $this->messages);
     }
 
     /**
@@ -77,14 +78,7 @@ class Messenger
      */
     public function implode($separator = ' : ')
     {
-        $m = array_map(
-            function (StringType $msg) {
-                return $msg();
-            },
-            $this->messages
-        );
-
-        return implode($separator, $m);
+        return implode($separator, $this->messages);
     }
 
     /**
@@ -95,7 +89,7 @@ class Messenger
     public function clear()
     {
         unset($this->messages);
-        $this->messages = array();
+        $this->messages = [];
 
         return $this;
     }

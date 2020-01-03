@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Chippyash/validation
  *
@@ -14,7 +17,6 @@
  */
 namespace Chippyash\Validation\Common\ISO8601;
 
-use Chippyash\Type\String\StringType;
 use Chippyash\Validation\Common\ISO8601\Constants as C;
 use Chippyash\Validation\Messenger;
 
@@ -27,9 +29,9 @@ class MatchDate
     /**#@+
      * Date format array parts
      */
-    const STRDATE = 'date';
-    const STRTIME = 'time';
-    const STRZONE = 'zone';
+    public const STRDATE = 'date';
+    public const STRTIME = 'time';
+    public const STRZONE = 'zone';
     /*#@-*/
 
     /**
@@ -45,7 +47,7 @@ class MatchDate
      *
      * @var array
      */
-    protected $formatRegex = array();
+    protected $formatRegex = [];
 
     /**
      *
@@ -75,7 +77,7 @@ class MatchDate
     {
         return $this->matchPart(
             $date,
-        $this->formatRegex[$this->format][self::STRDATE]
+            $this->formatRegex[$this->format][self::STRDATE]
         );
     }
 
@@ -146,7 +148,7 @@ class MatchDate
     {
         foreach ($patterns as $key => $pattern) {
             if (preg_match($pattern, $value) === 1) {
-                $this->messenger->add(new StringType($key));
+                $this->messenger->add($key);
                 return true;
             }
         }

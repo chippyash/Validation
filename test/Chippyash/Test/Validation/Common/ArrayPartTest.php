@@ -2,8 +2,9 @@
 namespace Chippyash\Test\Validation\Common;
 
 use Chippyash\Validation\Common\ArrayPart;
+use PHPUnit\Framework\TestCase;
 
-class ArrayPartTest extends \PHPUnit_Framework_TestCase
+class ArrayPartTest extends TestCase
 {
     /**
      * System Under Test
@@ -16,7 +17,7 @@ class ArrayPartTest extends \PHPUnit_Framework_TestCase
      */
     protected $keyValidator;
 
-    public function SetUp()
+    public function setUp(): void
     {
         $this->keyValidator = $this->getMockBuilder('\Chippyash\Validation\Common\AbstractValidator')
             ->setMethods(['validate', 'getMessages'])

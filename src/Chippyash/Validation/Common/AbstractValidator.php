@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Chippyash/validation
  *
@@ -14,13 +17,11 @@
 
 namespace Chippyash\Validation\Common;
 
-use Chippyash\Type\String\StringType;
 use Chippyash\Validation\Messenger;
 use Chippyash\Validation\Pattern\ValidatorPatternInterface;
 
 abstract class AbstractValidator implements ValidatorPatternInterface
 {
-
     /**
      * Message store
      * @var Messenger
@@ -49,7 +50,7 @@ abstract class AbstractValidator implements ValidatorPatternInterface
     abstract protected function validate($value);
 
     /**
-     * isValid interface for Zend\Validator\ValidatorInterface
+     * isValid interface for Laminas\Validator\ValidatorInterface
      *
      * @param  string $value
      * @return boolean
@@ -61,17 +62,12 @@ abstract class AbstractValidator implements ValidatorPatternInterface
     }
 
     /**
-     * getMessages interface for Zend\Validator\ValidatorInterface
+     * getMessages interface for Laminas\Validator\ValidatorInterface
      *
      * @return array
      */
     public function getMessages()
     {
-        return array_map(
-            function (StringType $msg) {
-                return $msg();
-            },
-            $this->messenger->get()
-        );
+        return $this->messenger->get();
     }
 }

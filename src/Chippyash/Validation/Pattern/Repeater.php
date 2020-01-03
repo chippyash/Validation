@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Chippyash/validation
  *
@@ -9,8 +12,6 @@
  */
 namespace Chippyash\Validation\Pattern;
 
-use Chippyash\Type\Number\IntType;
-use Chippyash\Type\String\StringType;
 use Chippyash\Validation\Common\IsTraversable;
 use Chippyash\Validation\Exceptions\ValidationException;
 
@@ -21,9 +22,9 @@ use Chippyash\Validation\Exceptions\ValidationException;
  */
 class Repeater extends IsTraversable
 {
-    const ERR_MIN = "value has less than minimum number of entries";
-    const ERR_MAX = "value has more than maximum number of entries";
-    const ERR_ITEM = "value item#%s failed repeatable validation";
+    public const ERR_MIN = "value has less than minimum number of entries";
+    public const ERR_MAX = "value has more than maximum number of entries";
+    public const ERR_ITEM = "value item#%s failed repeatable validation";
 
     /**
      * Minimum number of elements required in the repeatable value to be tested
@@ -49,19 +50,19 @@ class Repeater extends IsTraversable
      * Constructor
      *
      * @param ValidatorPatternInterface $validator
-     * @param IntType|null              $min
-     * @param IntType|null              $max
+     * @param int|null              $min
+     * @param int|null              $max
      *
      * @throws ValidationException
      */
-    public function __construct(ValidatorPatternInterface $validator, IntType $min = null, IntType $max = null)
+    public function __construct(ValidatorPatternInterface $validator, ?int $min = null, ?int $max = null)
     {
         if (!is_null($min)) {
-            $this->min = $min();
+            $this->min = $min;
         }
 
         if (!is_null($max)) {
-            $this->max = $max();
+            $this->max = $max;
         }
 
         if ($this->max !== -1 && ($this->max < $this->min)) {
@@ -84,19 +85,19 @@ class Repeater extends IsTraversable
         }
 
         if (count($value) < $this->min) {
-            $this->messenger->add(new StringType(self::ERR_MIN));
+            $this->messenger->add(self::ERR_MIN);
             return false;
         }
 
         if ($this->max !== -1 && (count($value) > $this->max)) {
-            $this->messenger->add(new StringType(self::ERR_MAX));
+            $this->messenger->add(self::ERR_MAX);
             return false;
         }
 
         $validator = $this->validator;
         foreach ($value as $k => $v) {
             if (!$validator($v, $this->messenger)) {
-                $this->messenger->add(new StringType(sprintf(self::ERR_ITEM, (string)$k)));
+                $this->messenger->add(sprintf(self::ERR_ITEM, (string)$k));
                 return false;
             }
         }

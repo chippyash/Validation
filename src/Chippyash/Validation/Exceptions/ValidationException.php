@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Chippyash/validation
  *
@@ -22,10 +25,10 @@ class ValidationException extends \Exception
      */
     protected $msg = 'Exception occurred somewhere within Chippyash Validation library';
 
-    public function __construct($message = null, $code = null, $previous = null)
+    public function __construct(?string $message = null, ?int $code = null, ?\Throwable $previous = null)
     {
         $message = (is_null($message) ? $this->msg : $message);
-        parent::__construct($message, $code, $previous);
+        parent::__construct($message, (int) $code, $previous);
     }
 
     /**
@@ -38,7 +41,7 @@ class ValidationException extends \Exception
      * @throws ValidationException
      * @throws static
      */
-    public static function assert($test, $message, $code = null)
+    public static function assert($test, $message, $code = null): void
     {
         if (!is_callable($test)) {
             throw new self('Test for assert is not callable', 500);

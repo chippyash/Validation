@@ -1,0 +1,19 @@
+# easy-coding-standard.yml
+imports:
+  - { resource: '%vendor_dir%/symplify/easy-coding-standard/config/set/clean-code.yaml' }
+  - { resource: '%vendor_dir%/symplify/easy-coding-standard/config/set/psr12.yaml' }
+  - { resource: '%vendor_dir%/symplify/easy-coding-standard/config/set/php71.yaml' }
+
+services:
+  PHP_CodeSniffer\Standards\Generic\Sniffs\Arrays\DisallowLongArraySyntaxSniff: ~
+  Symplify\CodingStandard\Sniffs\DeadCode\UnusedPublicMethodSniff: ~
+  SlevomatCodingStandard\Sniffs\Commenting\UselessInheritDocCommentSniff: ~
+  Symplify\CodingStandard\Fixer\Commenting\RemoveEmptyDocBlockFixer: ~
+
+parameters:
+  indentation: "    "
+  skip:
+#    SlevomatCodingStandard\Sniffs\Classes\UnusedPrivateElementsSniff:
+#      - 'site/cache/dic.cache.php' #cache file: not committed
+#    PhpCsFixer\Fixer\FunctionNotation\VoidReturnFixer:
+#      - 'site/cache/dic.cache.php' #cache file: not committed

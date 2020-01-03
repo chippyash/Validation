@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Chippyash/validation
  *
@@ -14,7 +17,6 @@
 
 namespace Chippyash\Validation\Pattern;
 
-use Chippyash\Type\String\StringType;
 use Chippyash\Validation\Common\AbstractValidator;
 
 /**
@@ -45,7 +47,7 @@ use Chippyash\Validation\Common\AbstractValidator;
  *  'foo' => 'string',
  *  'bar' => [
  *      'baz' => 'int',
- *      'fred' => '\Chippyash\Type\String\StringType'
+ *      'fred' => '\Chippyash\Type\String\String'
  *  ],
  *  'blogs' => 'real',
  *  'jimmy' => function ($value, Messenger $messenger){return is_array($value);},
@@ -55,20 +57,19 @@ use Chippyash\Validation\Common\AbstractValidator;
  */
 class HasTypeMap extends AbstractValidator
 {
-
     /**
      * User supplied types map
      *
      * @var array
      */
-    protected $typeMap = array();
+    protected $typeMap = [];
 
     /**
      * key map used to check value to be validated
      *
      * @var array
      */
-    protected $checkMap = array();
+    protected $checkMap = [];
 
     /**
      *
@@ -89,12 +90,12 @@ class HasTypeMap extends AbstractValidator
     {
         $parsedValue = $this->parsevalue($value);
         if ($parsedValue === false) {
-            $this->messenger->add(new StringType('Value cannot be mapped'));
+            $this->messenger->add('Value cannot be mapped');
         }
 
         $ret = $this->rValidate($parsedValue, $this->typeMap, $value);
         if (!$ret) {
-            $this->messenger->add(new StringType('Value has invalid type map'));
+            $this->messenger->add('Value has invalid type map');
         }
 
         return $ret;
@@ -124,7 +125,7 @@ class HasTypeMap extends AbstractValidator
      */
     protected function rParseValue($parsableValue)
     {
-        $ret = array();
+        $ret = [];
         foreach ($parsableValue as $key => $value) {
             if (is_array($value) || $value instanceof \ArrayAccess || is_object($value)) {
                 $ret[$key] = $this->rParseValue($value);
@@ -169,7 +170,7 @@ class HasTypeMap extends AbstractValidator
         $ret = true;
         foreach ($typeMap as $key => $type) {
             if (!isset($valueMap[$key])) {
-                $this->messenger->add(new StringType("Value key:{$key} does not exist"));
+                $this->messenger->add("Value key:{$key} does not exist");
                 return false;
             } elseif (is_callable($type)) {
                 $testValue = $this->issetInObjectOrArray($actValue, $key);
@@ -179,7 +180,7 @@ class HasTypeMap extends AbstractValidator
                 $ret = $type($testValue, $this->messenger);
                 if (!$ret) {
                     $this->messenger->add(
-                        new StringType("Value key:{$key} did not return true from a function call")
+                        "Value key:{$key} did not return true from a function call"
                     );
                     return false;
                 }
@@ -192,14 +193,14 @@ class HasTypeMap extends AbstractValidator
                 $ret = $ret && $this->rValidate($valueMap[$key], $type, $testValue);
                 if (!$ret) {
                     $implodedType = implode(':', array_keys($type));
-                    $this->messenger->add(new StringType("Value key:{$key} is not of type:[{$implodedType}]"));
+                    $this->messenger->add("Value key:{$key} is not of type:[{$implodedType}]");
                     return false;
                 }
                 continue;
             }
             $ret = ($valueMap[$key] == $type);
             if (!$ret) {
-                $this->messenger->add(new StringType("Value key:{$key} is not of type:{$type}"));
+                $this->messenger->add("Value key:{$key} is not of type:{$type}");
                 return false;
             }
         }

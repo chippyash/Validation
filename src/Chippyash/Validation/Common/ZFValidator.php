@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Chippyash/validation
  *
@@ -14,26 +17,25 @@
 
 namespace Chippyash\Validation\Common;
 
-use Chippyash\Type\String\StringType;
+use Laminas\Validator\ValidatorInterface;
 use Monad\Match;
 use Monad\Option;
-use Zend\Validator\ValidatorInterface;
 
 /**
- * Chippyash Validator that wraps a Zend Validator
+ * Chippyash Validator that wraps a Laminas Validator
  */
 class ZFValidator extends AbstractValidator
 {
     /**
      *
-     * @var \Zend\Validator\ValidatorInterface
+     * @var \Laminas\Validator\ValidatorInterface
      */
     protected $validator;
 
     /**
      * Constructor
      *
-     * @param \Zend\Validator\ValidatorInterface $validator
+     * @param \Laminas\Validator\ValidatorInterface $validator
      */
     public function __construct(ValidatorInterface $validator)
     {
@@ -54,9 +56,9 @@ class ZFValidator extends AbstractValidator
                 function () {
                     $msgs = $this->validator->getMessages();
                     array_walk(
-                        $msgs, 
-                        function ($msg) {
-                            $this->messenger->add(new StringType($msg));
+                        $msgs,
+                        function ($msg): void {
+                            $this->messenger->add($msg);
                         }
                     );
                     return false;
