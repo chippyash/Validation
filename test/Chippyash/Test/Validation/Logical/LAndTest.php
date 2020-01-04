@@ -4,7 +4,9 @@ namespace Chippyash\Test\Validation\Logical;
 
 use Chippyash\Test\Validation\Stubs\ValidatorTrue;
 use Chippyash\Test\Validation\Stubs\ValidatorFalse;
+use Chippyash\Validation\Common\IsArray;
 use Chippyash\Validation\Logical\LAnd;
+use Chippyash\Validation\Pattern\HasTypeMap;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -34,5 +36,35 @@ class LAndTest extends TestCase {
         $this->assertFalse($test->isValid('foo'));
         $test = new LAnd($this->false, $this->false);
         $this->assertFalse($test->isValid('foo'));
+    }
+
+    public function testArrayValidationsWillRun()
+    {
+        $map = [
+            'a' => new LAnd(
+                new HasTypeMap([
+                    'b' => 'string',
+                    'c' => 'string'
+                ]),
+                new IsArray()
+            )
+        ];
+
+        $value1 = [
+            'a' => [
+                'b' => 'foo',
+                'c' => 'bar'
+            ]
+        ];
+        $value2 = [
+            'a' => null
+        ];
+        $value3 = [
+            'a' => 'foo'
+        ];
+
+        $this->assertTrue((new HasTypeMap($map))->isValid($value1));
+        $this->assertFalse((new HasTypeMap($map))->isValid($value2));
+        $this->assertFalse((new HasTypeMap($map))->isValid($value3));
     }
 }

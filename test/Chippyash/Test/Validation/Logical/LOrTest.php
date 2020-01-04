@@ -4,7 +4,9 @@ namespace Chippyash\Test\Validation\Logical;
 
 use Chippyash\Test\Validation\Stubs\ValidatorTrue;
 use Chippyash\Test\Validation\Stubs\ValidatorFalse;
+use Chippyash\Validation\Common\IsNull;
 use Chippyash\Validation\Logical\LOr;
+use Chippyash\Validation\Pattern\HasTypeMap;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -36,4 +38,33 @@ class LOrTest extends TestCase {
         $this->assertFalse($test->isValid('foo'));
     }
 
+    public function testArrayValidationsWillRun()
+    {
+        $map = [
+            'a' => new LOr(
+                new HasTypeMap([
+                    'b' => 'string',
+                    'c' => 'string'
+                ]),
+                new IsNull()
+            )
+        ];
+
+        $value1 = [
+            'a' => [
+                'b' => 'foo',
+                'c' => 'bar'
+            ]
+        ];
+        $value2 = [
+            'a' => null
+        ];
+        $value3 = [
+            'a' => 'foo'
+        ];
+
+        $this->assertTrue((new HasTypeMap($map))->isValid($value1));
+        $this->assertTrue((new HasTypeMap($map))->isValid($value2));
+        $this->assertFalse((new HasTypeMap($map))->isValid($value3));
+    }
 }

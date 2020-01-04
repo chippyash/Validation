@@ -220,7 +220,7 @@ class HasTypeMap extends AbstractValidator
         if (is_object($actValue) && property_exists($actValue, $key)) {
             return $actValue->$key;
         }
-        if (isset($actValue[$key])) {
+        if (array_key_exists($key, $actValue)) {
             return $actValue[$key];
         }
 
