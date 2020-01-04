@@ -36,7 +36,7 @@
   "scripts": {
     "lint": "vendor/bin/ecs check src",
     "lint-fix": "vendor/bin/ecs check --fix src",
-    "test": "php vendor/bin/codecept run unit --coverage"
+    "test": "php vendor/phpunit/phpunit/phpunit --configuration ./phpunit.travis.xml test  --coverage-text"
   },
   "scripts-descriptions": {
     "lint": "Run code linter and look for problems (suggestion: set up your IDE to do this)",
